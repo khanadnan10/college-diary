@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "982230669868",
+    "project_id": "finalyearcollegeapp",
+    "storage_bucket": "finalyearcollegeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982230669868:android:e7f121ca6198bf734c4f89",
+        "android_client_info": {
+          "package_name": "adnankhan.app.college_diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982230669868-tnptmerrk5l5j7gqvde02r83ptc2o2jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB00ThEXdE50vUV7hod5Xe6HsHeo_xLnPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982230669868-tnptmerrk5l5j7gqvde02r83ptc2o2jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "982230669868-r03anrt426qq7n7cnuflo8b0qhfofi4b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instagramCloneFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982230669868:android:dfdacbd848f102ba4c4f89",
+        "android_client_info": {
+          "package_name": "com.example.instagram_clone_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982230669868-tnptmerrk5l5j7gqvde02r83ptc2o2jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB00ThEXdE50vUV7hod5Xe6HsHeo_xLnPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982230669868-tnptmerrk5l5j7gqvde02r83ptc2o2jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "982230669868-r03anrt426qq7n7cnuflo8b0qhfofi4b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instagramCloneFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
