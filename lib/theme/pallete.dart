@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Pallete {
   // Colors
@@ -6,13 +7,14 @@ class Pallete {
   static const greyColor = Color.fromRGBO(26, 39, 45, 1); // secondary color
   static const drawerColor = Color.fromRGBO(18, 18, 18, 1);
   static const whiteColor = Colors.white;
-  static var redColor = Colors.red.shade500;
-  static var blueColor = Colors.blue.shade300;
+  static var blueColor = const Color(0xff3370E5);
+  static var lightBlueColor = Colors.blue.shade300;
 
   // Themes
   static var darkModeAppTheme = ThemeData.dark().copyWith(
       scaffoldBackgroundColor: blackColor,
       cardColor: greyColor,
+      textTheme: GoogleFonts.latoTextTheme(),
       appBarTheme: const AppBarTheme(
         backgroundColor: drawerColor,
         iconTheme: IconThemeData(
@@ -22,7 +24,7 @@ class Pallete {
       drawerTheme: const DrawerThemeData(
         backgroundColor: drawerColor,
       ),
-      primaryColor: redColor,
+      primaryColor: blueColor,
       colorScheme: ColorScheme.fromSeed(
           seedColor:
               drawerColor) // will be used as alternative background color
@@ -31,6 +33,7 @@ class Pallete {
   static var lightModeAppTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: whiteColor,
     cardColor: greyColor,
+    textTheme: GoogleFonts.latoTextTheme(),
     appBarTheme: const AppBarTheme(
       backgroundColor: whiteColor,
       elevation: 0,
@@ -41,7 +44,7 @@ class Pallete {
     drawerTheme: const DrawerThemeData(
       backgroundColor: whiteColor,
     ),
-    primaryColor: redColor,
+    primaryColor: blueColor,
     colorScheme: ColorScheme.fromSeed(seedColor: whiteColor),
   );
 }
