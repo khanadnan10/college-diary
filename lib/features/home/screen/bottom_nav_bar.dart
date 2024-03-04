@@ -2,23 +2,27 @@ import 'package:college_diary/core/common/widgets/loader.dart';
 import 'package:college_diary/core/constants/list_of_screen.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/home/controller/bottom_nav_bar_controller.dart';
-import 'package:college_diary/features/post/screen/add_post.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
-class BottomNavBar extends ConsumerWidget {
+class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends ConsumerState<BottomNavBar> {
+  final TextEditingController postController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
     final selectedIndex = ref.watch(bottomNavBarProvider);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.red,
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
           decoration: const BoxDecoration(),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(26.0),
@@ -53,13 +57,7 @@ class BottomNavBar extends ConsumerWidget {
                 ),
               ],
               onTap: (val) {
-                if (val == 2) {
-                  addPostBottomModelSheet(context);
-                } else {
-                  ref
-                      .watch(bottomNavBarProvider.notifier)
-                      .update((state) => val);
-                }
+                ref.watch(bottomNavBarProvider.notifier).update((state) => val);
               },
               iconSize: 30,
               currentIndex: selectedIndex,
