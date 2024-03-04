@@ -7,3 +7,8 @@
 Starting with Authentication screen
 - Login page
 - Signup page
+
+Explore feed contains all the posts with links and images
+- Post
+- Image
+- Links

@@ -9,6 +9,8 @@ final loggedOutRoute = RouteMap(routes: {
   RouteName.initial: (_) => const MaterialPage(child: AuthScreen()),
   RouteName.invitationVerification: (_) =>
       const MaterialPage(child: InvitationVerification()),
-  RouteName.homeScreen: (_) =>
-      const MaterialPage(child: HomeScreen()),
+});
+
+final loggedInRoute = RouteMap(routes: {
+  RouteName.initial: (_) => const MaterialPage(child: HomeScreen()),
 });

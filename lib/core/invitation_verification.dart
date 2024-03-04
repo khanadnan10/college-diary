@@ -1,17 +1,21 @@
 import 'package:college_diary/core/common/widgets/custom_elevated_button.dart';
-import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/utils.dart';
+import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-class InvitationVerification extends StatefulWidget {
+class InvitationVerification extends ConsumerStatefulWidget {
   const InvitationVerification({super.key});
 
   @override
-  State<InvitationVerification> createState() => _InvitationVerificationState();
+  ConsumerState<InvitationVerification> createState() =>
+      _InvitationVerificationState();
 }
 
-class _InvitationVerificationState extends State<InvitationVerification> {
+class _InvitationVerificationState
+    extends ConsumerState<InvitationVerification> {
   final _invitationCode = TextEditingController();
 
   @override
@@ -25,7 +29,7 @@ class _InvitationVerificationState extends State<InvitationVerification> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Routemaster.of(context).pop(),
+          onTap: () => Routemaster.of(context).pop(false),
           child: const Icon(
             Icons.arrow_back,
           ),
@@ -64,8 +68,17 @@ class _InvitationVerificationState extends State<InvitationVerification> {
             const Spacer(),
             CElevatedButton(
               text: 'Verify',
-              onPressed: () =>
-                  Routemaster.of(context).push(RouteName.homeScreen), //! Replace push to replace later
+              onPressed: () {
+                if (_invitationCode.text.isNotEmpty) {
+                  ref
+                      .watch(authControllerProvider.notifier)
+                      .verifyInvitationCode(
+                          invitationCode: _invitationCode.text.trim(),
+                          context: context);
+                } else {
+                  showSnackBar(context, 'Provide a valid invitation code.');
+                }
+              }, //! Replace push to replace later
             ),
           ],
         ),

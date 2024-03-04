@@ -4,25 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:college_diary/theme/pallete.dart';
 
 class CTextField extends StatelessWidget {
+  final TextEditingController emailController;
+  final String hintText;
+  final TextInputType? keyboardInputType;
   const CTextField({
     Key? key,
-    required TextEditingController emailController,
-    required String hintText,
-    this.keyboardInputType,
-  })  : _emailController = emailController,
-        _hintText = hintText;
-
-  final TextEditingController _emailController;
-  final String _hintText;
-  final TextInputType? keyboardInputType;
+    required this.emailController,
+    required this.hintText,
+    this.keyboardInputType = TextInputType.multiline,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: keyboardInputType ?? TextInputType.multiline,
-      controller: _emailController,
+      keyboardType: keyboardInputType,
+      controller: emailController,
       decoration: InputDecoration(
-        hintText: _hintText,
+        hintText: hintText,
         hintStyle: TextStyle(
           color: Pallete.greyColor.withOpacity(0.3),
           fontWeight: FontWeight.w400,

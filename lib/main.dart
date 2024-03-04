@@ -1,7 +1,13 @@
+import 'package:college_diary/core/common/widgets/error_text.dart';
+import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/firebase_options.dart';
+import 'package:college_diary/model/user_model.dart';
 import 'package:college_diary/route.dart';
 import 'package:college_diary/theme/pallete.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -11,6 +17,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -18,18 +25,47 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  UserModel? userModel;
+
+  void getData(WidgetRef ref, User data) async {
+    userModel = await ref
+        .watch(authControllerProvider.notifier)
+        .getUserData(data.uid)
+        .first;
+    ref.read(userProvider.notifier).update((state) => userModel);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'College Diary',
-      theme: Pallete.lightModeAppTheme,
-      routerDelegate:
-          RoutemasterDelegate(routesBuilder: (context) => loggedOutRoute),
-      routeInformationParser: const RoutemasterParser(),
-    );
+    return ref.watch(authStateChangeProvider).when(
+          loading: (() => const Loader()),
+          error: (error, st) => ErrorText(error: error.toString()),
+          data: (data) => MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'College Diary',
+            theme: Pallete.lightModeAppTheme,
+            routerDelegate: RoutemasterDelegate(
+              routesBuilder: (context) {
+                if (kDebugMode) print(data);
+                if (data != null) {
+                  getData(ref, data);
+                  // if (userModel != null) {
+                  return loggedInRoute;
+                  // }
+                }
+                return loggedOutRoute;
+              },
+            ),
+            routeInformationParser: const RoutemasterParser(),
+          ),
+        );
   }
 }
