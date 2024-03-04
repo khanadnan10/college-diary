@@ -1,7 +1,6 @@
 import 'package:college_diary/features/auth/repository/auth_provider.dart';
 import 'package:college_diary/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -62,9 +61,6 @@ class AuthController extends StateNotifier<bool> {
         (l) => showSnackBar(context, l.message),
         (userModel) => showSnackBar(context, "Account has been created"),
       );
-    } on FirebaseAuthException catch (e) {
-      state = false;
-      throw e.message.toString();
     } catch (e) {
       state = false;
     }
@@ -79,8 +75,9 @@ class AuthController extends StateNotifier<bool> {
       state = true;
       final user =
           await _authRepository.signin(email: email, password: password);
-      if (kDebugMode)
-        print("singin controller -  ${user.fold((l) => l.message, (r) => r)}");
+      // if (kDebugMode) {
+      //   print("singin controller -  ${user.fold((l) => l.message, (r) => r)}");
+      // }
       state = false;
       user.fold(
         (l) {
@@ -92,6 +89,7 @@ class AuthController extends StateNotifier<bool> {
       );
     } catch (e) {
       state = false;
+      if (context.mounted) showSnackBar(context, e.toString());
     }
   }
 
@@ -100,7 +98,9 @@ class AuthController extends StateNotifier<bool> {
   }
 
   Future<void> signout() async {
+    state = true;
     await _authRepository.signoutUser();
+    state = false;
   }
 
   void verifyInvitationCode({

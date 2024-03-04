@@ -7,7 +7,6 @@ import 'package:college_diary/route.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -54,12 +53,10 @@ class _MyAppState extends ConsumerState<MyApp> {
             theme: Pallete.lightModeAppTheme,
             routerDelegate: RoutemasterDelegate(
               routesBuilder: (context) {
-                if (kDebugMode) print(data);
+                // if (kDebugMode) print(data);
                 if (data != null) {
                   getData(ref, data);
-                  // if (userModel != null) {
                   return loggedInRoute;
-                  // }
                 }
                 return loggedOutRoute;
               },

@@ -4,6 +4,7 @@
 import 'package:college_diary/core/common/widgets/custom_elevated_button.dart';
 import 'package:college_diary/core/common/widgets/loader.dart';
 import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:college_diary/core/common/widgets/custom_text_field.dart';
@@ -37,9 +38,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       );
       verified.result.then((value) {
         if (value == true) {
-          setState(() {
-            isVerified = true;
-          });
+          isVerified = true;
+          showSnackBar(context, 'One more step to continue.');
         }
       });
     }
@@ -57,12 +57,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   void signinUser() async {
     if (_loginFormKey.currentState!.validate()) {
-      ref.watch(authControllerProvider.notifier).signin(
+      ref.read(authControllerProvider.notifier).signin(
             context: context,
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
     }
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) super.setState(fn);
   }
 
   @override

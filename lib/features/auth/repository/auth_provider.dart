@@ -34,6 +34,18 @@ class AuthRepository {
 
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
+  FutureEither<String> deleteUser() async {
+    try {
+      await _user.doc(_auth.currentUser!.uid).delete();
+      await _auth.currentUser!.delete();
+      return right("Account has been deleted Successfully.");
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   FutureEither<UserModel?> signin({
     required String email,
     required String password,
@@ -48,10 +60,10 @@ class AuthRepository {
         password: password,
       );
 
-      if (kDebugMode) print("repo $userCredential");
+      // if (kDebugMode) print("Sign in repo: $userCredential");
 
       if (userCredential.user != null) {
-        if (kDebugMode) print("repo $userCredential");
+        // if (kDebugMode) print("repo $userCredential");
         final userData = await getUserData(userCredential.user!.uid).first;
         return right(userData);
       } else {
@@ -75,7 +87,7 @@ class AuthRepository {
       if (name.isNotEmpty ||
           email.isNotEmpty ||
           password.isNotEmpty ||
-          phoneNumber.isNotEmpty ||
+          phoneNumber.length == 10 ||
           enrollmentNumber.isNotEmpty) {
         // check if the enrollment is already assigned to other user
 
@@ -96,13 +108,13 @@ class AuthRepository {
           name: name,
           email: email,
           phoneNumber: phoneNumber,
-          enrollmentNumber: enrollmentNumber.toLowerCase(),
+          enrollmentNumber: enrollmentNumber.toUpperCase(),
           profilePic: "",
           isVerifiedByAdmin: false,
           isBanned: false,
           isAdmin: false,
         );
-        await _user.doc(user.uid).set(user.toMap());
+        await _user.doc(user.uid).set(user.toMap(), SetOptions(merge: true));
         return right(userCredential.user);
       } else {
         return left(Failure('Something went wrong!'));
