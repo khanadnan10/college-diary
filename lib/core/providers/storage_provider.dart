@@ -6,6 +6,7 @@ import 'package:college_diary/core/type_def.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+// import 'package:uuid/uuid.dart';
 
 final storageRepositoryProvider = Provider(
   (ref) => StorageRepository(
@@ -22,13 +23,19 @@ class StorageRepository {
   FutureEither<String> storeFile({
     required String path,
     required String id,
-    required File? file,
+    required File file,
+    bool isPublicPost = true,
   }) async {
     try {
-      final ref = _firebaseStorage.ref().child(path).child(id);
+      Reference ref = _firebaseStorage.ref().child(path).child(id);
       UploadTask uploadTask;
 
-      uploadTask = ref.putFile(file!);
+      // if (isPublicPost) {
+      //   String id = const Uuid().v1();
+      //   ref = ref.child(id);
+      // }
+
+      uploadTask = ref.putFile(file);
 
       final snapshot = await uploadTask;
 

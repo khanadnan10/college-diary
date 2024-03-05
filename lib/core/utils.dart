@@ -21,16 +21,14 @@ void showSnackBar(BuildContext context, String text) {
     );
 }
 
-Future<List<File>> pickImagesFromGallery() async {
-  List<File> images = [];
+Future<File> pickImagesFromGallery() async {
+  File? images;
   final ImagePicker picker = ImagePicker();
-  final selectedImages = await picker.pickMultiImage();
-  if (selectedImages.isNotEmpty) {
-    for (final image in selectedImages) {
-      images.add(File(image.path));
-    }
+  final selectedImages = await picker.pickImage(source: ImageSource.gallery);
+  if (selectedImages != null) {
+    images = File(selectedImages.path);
   }
-  return images;
+  return images!;
 }
 
 Future<File> pickImageFromCamera() async {

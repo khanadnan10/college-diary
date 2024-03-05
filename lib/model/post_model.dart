@@ -1,18 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class Post {
   final String pid;
   final String uid;
-  final String? text;
+  final String? content;
   final List<String> likes;
   final List<String> dislikes;
-  final List<String>? images;
-  final Post postType;
+  final String? images;
+  final String postType;
   final DateTime createdAt;
   Post({
     required this.pid,
     required this.uid,
-    this.text,
+    this.content,
     required this.likes,
     required this.dislikes,
     this.images,
@@ -23,17 +26,17 @@ class Post {
   Post copyWith({
     String? pid,
     String? uid,
-    String? text,
+    String? content,
     List<String>? likes,
     List<String>? dislikes,
-    List<String>? images,
-    Post? postType,
+    String? images,
+    String? postType,
     DateTime? createdAt,
   }) {
     return Post(
       pid: pid ?? this.pid,
       uid: uid ?? this.uid,
-      text: text ?? this.text,
+      content: content ?? this.content,
       likes: likes ?? this.likes,
       dislikes: dislikes ?? this.dislikes,
       images: images ?? this.images,
@@ -46,7 +49,7 @@ class Post {
     return <String, dynamic>{
       'pid': pid,
       'uid': uid,
-      'text': text,
+      'content': content,
       'likes': likes,
       'dislikes': dislikes,
       'images': images,
@@ -59,21 +62,20 @@ class Post {
     return Post(
       pid: map['pid'] as String,
       uid: map['uid'] as String,
-      text: map['text'] != null ? map['text'] as String : null,
-      likes: List<String>.from(map['likes'] as List<String>),
+      content: map['content'] != null ? map['content'] as String : null,
+      likes: List<String>.from((map['likes'] as List<String>)),
       dislikes: List<String>.from((map['dislikes'] as List<String>)),
-      images: map['images'] != null
-          ? List<String>.from((map['images'] as List<String>))
-          : null,
-      postType: map['postType'] as Post,
+      images: map['images'] != null ? map['images'] as String : null,
+      postType: map['postType'] as String,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     );
   }
 
-  @override
-  String toString() {
-    return 'Post(pid: $pid, uid: $uid, text: $text, likes: $likes, dislikes: $dislikes, images: $images, postType: $postType, createdAt: $createdAt)';
-  }
+  String toJson() => json.encode(toMap());
+
+  factory Post.fromJson(String source) =>
+      Post.fromMap(json.decode(source) as Map<String, dynamic>);
+
 
   @override
   bool operator ==(covariant Post other) {
@@ -81,10 +83,10 @@ class Post {
 
     return other.pid == pid &&
         other.uid == uid &&
-        other.text == text &&
+        other.content == content &&
         listEquals(other.likes, likes) &&
         listEquals(other.dislikes, dislikes) &&
-        listEquals(other.images, images) &&
+        other.images == images &&
         other.postType == postType &&
         other.createdAt == createdAt;
   }
@@ -93,7 +95,7 @@ class Post {
   int get hashCode {
     return pid.hashCode ^
         uid.hashCode ^
-        text.hashCode ^
+        content.hashCode ^
         likes.hashCode ^
         dislikes.hashCode ^
         images.hashCode ^
