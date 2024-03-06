@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:college_diary/core/common/widgets/loader.dart';
 import 'package:college_diary/core/enums/post_enum.dart';
@@ -10,6 +11,7 @@ import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPostScreen extends ConsumerStatefulWidget {
   const AddPostScreen({super.key});
@@ -21,34 +23,48 @@ class AddPostScreen extends ConsumerStatefulWidget {
 class _AddPostScreenState extends ConsumerState<AddPostScreen> {
   final TextEditingController postController = TextEditingController();
 
-  File? selectedImages;
+  Uint8List? selectedImages;
   void galleryImage() async {
-    final images = await pickImagesFromGallery();
-    selectedImages = images;
-    setState(() {});
+    Uint8List images = await pickImagesFromGallery(ImageSource.gallery);
+    setState(() {
+      selectedImages = images;
+    });
   }
 
   void cameraImage() async {
-    final images = await pickImageFromCamera();
-    selectedImages = images;
-    setState(() {});
+    Uint8List images = await pickImagesFromGallery(ImageSource.camera);
+    setState(() {
+      selectedImages = images;
+    });
   }
 
-  void uploadPost() async {
-    if (postController.text.isNotEmpty || selectedImages != null) {
-      ref.read(postControllerProvider.notifier).sharePost(
+  void uploadPublicTextPost() async {
+    if (postController.text.isNotEmpty) {
+      ref.read(postControllerProvider.notifier).sharePublicTextPost(
             context: context,
             title: postController.text.trim(),
-            postType: selectedImages != null
-                ? PostType.image.name.toString()
-                : PostType.text.name.toString(),
-            club: null,
-            file: selectedImages,
+            postType: PostType.text.name.toString(),
+          );
+    }
+    postController.clear();
+  }
+
+  void uploadPublicPostWithImage() async {
+    if (postController.text.isNotEmpty || selectedImages != null) {
+      ref.read(postControllerProvider.notifier).sharePublicPostWithImage(
+            context: context,
+            title: postController.text.trim(),
+            postType: PostType.image.name.toString(),
+            file: selectedImages!,
           );
     }
     postController.clear();
     selectedImages = null;
   }
+
+  void removePickedImage() => setState(() {
+        selectedImages = null;
+      });
 
   @override
   void setState(VoidCallback fn) {
@@ -63,6 +79,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProfile = ref.watch(userProvider)!.profilePic.isEmpty;
     return ref.watch(postControllerProvider)
         ? const Loader()
         : Column(
@@ -76,7 +93,9 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                         elevation: 0,
                         backgroundColor: Pallete.blueColor,
                       ),
-                      onPressed: uploadPost,
+                      onPressed: selectedImages != null
+                          ? uploadPublicPostWithImage
+                          : uploadPublicTextPost,
                       child: const Text(
                         'Post',
                         style: TextStyle(
@@ -102,16 +121,13 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: CircleAvatar(
-                                radius: 26.0,
-                                backgroundImage:
-                                    ref.read(userProvider)!.profilePic.isEmpty
-                                        ? const NetworkImage(
-                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-                                          )
-                                        : NetworkImage(
-                                            ref.read(userProvider)!.profilePic),
-                              ),
+                              child: userProfile
+                                  ? const CircleAvatar()
+                                  : CircleAvatar(
+                                      radius: 26.0,
+                                      backgroundImage: NetworkImage(
+                                          ref.read(userProvider)!.profilePic),
+                                    ),
                             ),
                             Expanded(
                               flex: 5,
@@ -141,7 +157,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                                                 right: 10.0),
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                image: FileImage(
+                                                image: MemoryImage(
                                                   selectedImages!,
                                                 ),
                                                 fit: BoxFit.cover,
@@ -157,7 +173,8 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                                                 alignment: Alignment.topRight,
                                                 child: IconButton(
                                                   onPressed: () {
-                                                    selectedImages!.delete();
+                                                    selectedImages = null;
+                                                    setState(() {});
                                                   },
                                                   icon:
                                                       const Icon(Icons.cancel),

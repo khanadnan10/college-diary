@@ -21,22 +21,10 @@ void showSnackBar(BuildContext context, String text) {
     );
 }
 
-Future<File> pickImagesFromGallery() async {
-  File? images;
-  final ImagePicker picker = ImagePicker();
-  final selectedImages = await picker.pickImage(source: ImageSource.gallery);
-  if (selectedImages != null) {
-    images = File(selectedImages.path);
+pickImagesFromGallery(ImageSource source) async {
+  final ImagePicker imagePicker = ImagePicker();
+  XFile? file = await imagePicker.pickImage(source: source);
+  if (file != null) {
+    return await file.readAsBytes();
   }
-  return images!;
-}
-
-Future<File> pickImageFromCamera() async {
-  File? images;
-  final ImagePicker picker = ImagePicker();
-  final selectedImages = await picker.pickImage(source: ImageSource.camera);
-  if (selectedImages != null) {
-    images = File(selectedImages.path);
-  }
-  return images!;
 }

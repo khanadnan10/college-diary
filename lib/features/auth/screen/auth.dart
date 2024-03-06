@@ -128,7 +128,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             SizedBox(
                               height: screenSize,
                               child: TabBarView(
-                                physics: NeverScrollableScrollPhysics(),
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -162,62 +161,71 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 24.0),
-                                    child: Form(
-                                      key: _signupFormKey,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Name'),
-                                          CTextField(
-                                            hintText: 'College Diary',
-                                            emailController: _nameController,
+                                  Wrap(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 24.0),
+                                        child: Form(
+                                          key: _signupFormKey,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Name'),
+                                              CTextField(
+                                                hintText: 'College Diary',
+                                                emailController:
+                                                    _nameController,
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text('Email'),
+                                              CTextField(
+                                                hintText:
+                                                    'collegediary@email.com',
+                                                emailController:
+                                                    _emailController,
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text('Password'),
+                                              CTextField(
+                                                hintText: 'Password',
+                                                emailController:
+                                                    _passwordController,
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text('Phone Number'),
+                                              CTextField(
+                                                hintText: '+91- 9876543210',
+                                                emailController:
+                                                    _phoneNumberController,
+                                                keyboardInputType:
+                                                    TextInputType.phone,
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text('Enrollment'),
+                                              CTextField( 
+                                                hintText: '0115CSXXXXX',
+                                                emailController:
+                                                    _enrollmentController,
+                                              ),
+                                              SizedBox(height: 20),
+                                              !isVerified
+                                                  ? CElevatedButton(
+                                                      text: 'Verify',
+                                                      onPressed: verifyUser,
+                                                    )
+                                                  : CElevatedButton(
+                                                      text: 'Sign up',
+                                                      onPressed: signupuser,
+                                                    ),
+                                              SizedBox(height: 20),
+                                            ],
                                           ),
-                                          SizedBox(height: 20),
-                                          Text('Email'),
-                                          CTextField(
-                                            hintText: 'collegediary@email.com',
-                                            emailController: _emailController,
-                                          ),
-                                          SizedBox(height: 20),
-                                          Text('Password'),
-                                          CTextField(
-                                            hintText: 'Password',
-                                            emailController:
-                                                _passwordController,
-                                          ),
-                                          SizedBox(height: 20),
-                                          Text('Phone Number'),
-                                          CTextField(
-                                            hintText: '+91- 9876543210',
-                                            emailController:
-                                                _phoneNumberController,
-                                            keyboardInputType:
-                                                TextInputType.phone,
-                                          ),
-                                          SizedBox(height: 20),
-                                          Text('Enrollment'),
-                                          CTextField(
-                                            hintText: '0115CSXXXXX',
-                                            emailController:
-                                                _enrollmentController,
-                                          ),
-                                          SizedBox(height: 20),
-                                          !isVerified
-                                              ? CElevatedButton(
-                                                  text: 'Verify',
-                                                  onPressed: verifyUser,
-                                                )
-                                              : CElevatedButton(
-                                                  text: 'Sign up',
-                                                  onPressed: signupuser,
-                                                ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               ),

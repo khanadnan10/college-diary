@@ -21,14 +21,14 @@ class PostRepository {
       _firestore.collection(FirebaseCollection.postCollection);
   FutureVoid addPost(Post post) async {
     try {
-      return right(await _posts.doc(post.pid).set(post.toMap()));
+      final res = await _posts.doc(post.pid).set(post.toMap());
+      if (kDebugMode) {
+        print(post);
+      }
+      return right(res);
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
-      if (kDebugMode) {
-        print(
-            "**************************************************************************${e.toString()}");
-      }
       return left(Failure(e.toString()));
     }
   }

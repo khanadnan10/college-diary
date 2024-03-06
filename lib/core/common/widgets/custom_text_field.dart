@@ -7,11 +7,13 @@ class CTextField extends StatelessWidget {
   final TextEditingController emailController;
   final String hintText;
   final TextInputType? keyboardInputType;
+  final VoidCallback? onTap;
   const CTextField({
     Key? key,
     required this.emailController,
     required this.hintText,
     this.keyboardInputType = TextInputType.multiline,
+    this.onTap,
   }) : super(key: key);
 
   @override

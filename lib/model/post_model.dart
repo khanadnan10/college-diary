@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 class Post {
@@ -70,13 +68,6 @@ class Post {
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Post.fromJson(String source) =>
-      Post.fromMap(json.decode(source) as Map<String, dynamic>);
-
-
   @override
   bool operator ==(covariant Post other) {
     if (identical(this, other)) return true;
@@ -101,5 +92,10 @@ class Post {
         images.hashCode ^
         postType.hashCode ^
         createdAt.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Post(pid: $pid, uid: $uid, content: $content, likes: $likes, dislikes: $dislikes, images: $images, postType: $postType, createdAt: $createdAt)';
   }
 }

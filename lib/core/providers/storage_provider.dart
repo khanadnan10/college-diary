@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:college_diary/core/failure.dart';
 import 'package:college_diary/core/providers/firebase_provider.dart';
@@ -23,19 +24,12 @@ class StorageRepository {
   FutureEither<String> storeFile({
     required String path,
     required String id,
-    required File file,
+    required Uint8List file,
     bool isPublicPost = true,
   }) async {
     try {
       Reference ref = _firebaseStorage.ref().child(path).child(id);
-      UploadTask uploadTask;
-
-      // if (isPublicPost) {
-      //   String id = const Uuid().v1();
-      //   ref = ref.child(id);
-      // }
-
-      uploadTask = ref.putFile(file);
+      UploadTask uploadTask = ref.putData(file);
 
       final snapshot = await uploadTask;
 
