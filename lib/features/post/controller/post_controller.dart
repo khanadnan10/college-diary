@@ -19,6 +19,14 @@ final postControllerProvider =
   );
 });
 
+final getPostById = StreamProvider.family((ref, String name) {
+  return ref.watch(postRepositoryProvider).getPostById(name);
+});
+
+final getAllPostProvider = StreamProvider((ref) {
+  return ref.watch(postControllerProvider.notifier).getAllPost();
+});
+
 class PostController extends StateNotifier<bool> {
   final PostRepository _postRepository;
   final Ref _ref;
@@ -54,6 +62,9 @@ class PostController extends StateNotifier<bool> {
         Post post = Post(
           pid: postId,
           uid: user.uid,
+          branch: 'cse',
+          department: 'NIIST',
+          userName: user.name,
           likes: [],
           images: imageUrl,
           content: title,
@@ -61,7 +72,7 @@ class PostController extends StateNotifier<bool> {
           postType: postType,
           createdAt: DateTime.now(),
         );
-        final res = await _postRepository.addPost(post);
+        final res = await _postRepository.createPost(post);
         state = false;
         res.fold(
           (l) => showSnackBar(context, l.message),
@@ -85,13 +96,16 @@ class PostController extends StateNotifier<bool> {
     Post post = Post(
       pid: postId,
       uid: user.uid,
+      branch: 'cse',
+      department: 'NIIST',
+      userName: user.name,
       likes: [],
       content: title,
       dislikes: [],
       postType: postType,
       createdAt: DateTime.now(),
     );
-    final res = await _postRepository.addPost(post);
+    final res = await _postRepository.createPost(post);
     state = false;
     return res.fold(
       (l) => showSnackBar(context, l.message),
@@ -99,5 +113,13 @@ class PostController extends StateNotifier<bool> {
         showSnackBar(context, 'Posted successfully!');
       },
     );
+  }
+
+  Stream<List<Post>> getAllPost() {
+    return _ref.watch(postRepositoryProvider).getAllPost();
+  }
+
+  Stream<Post> getPostById(String name) {
+    return _ref.watch(postRepositoryProvider).getPostById(name);
   }
 }

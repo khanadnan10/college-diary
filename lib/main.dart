@@ -8,6 +8,7 @@ import 'package:college_diary/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -16,6 +17,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Pallete.blueColor,
+      systemNavigationBarColor: Pallete.blueColor,
+    ),
+  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(
     const ProviderScope(
@@ -53,7 +62,6 @@ class _MyAppState extends ConsumerState<MyApp> {
             theme: Pallete.lightModeAppTheme,
             routerDelegate: RoutemasterDelegate(
               routesBuilder: (context) {
-                // if (kDebugMode) print(data);
                 if (data != null) {
                   getData(ref, data);
                   return loggedInRoute;

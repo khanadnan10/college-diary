@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:college_diary/core/common/widgets/loader.dart';
 import 'package:college_diary/core/enums/post_enum.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
-import 'package:college_diary/features/home/controller/bottom_nav_bar_controller.dart';
 import 'package:college_diary/features/post/controller/post_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -134,16 +132,18 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  TextField(
-                                    controller: postController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Enter your thoughts...',
-                                      isDense: true,
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
+                                  Flexible(
+                                    child: TextField(
+                                      controller: postController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Enter your thoughts...',
+                                        isDense: true,
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
                                       ),
+                                      maxLines: null,
                                     ),
-                                    maxLines: null,
                                   ),
                                   const SizedBox(
                                     height: 10.0,
@@ -172,10 +172,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                                               child: Align(
                                                 alignment: Alignment.topRight,
                                                 child: IconButton(
-                                                  onPressed: () {
-                                                    selectedImages = null;
-                                                    setState(() {});
-                                                  },
+                                                  onPressed: removePickedImage,
                                                   icon:
                                                       const Icon(Icons.cancel),
                                                 ),

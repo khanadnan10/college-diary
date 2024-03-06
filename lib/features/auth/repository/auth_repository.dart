@@ -3,7 +3,6 @@ import 'package:college_diary/core/constants/firebase_collections.dart';
 import 'package:college_diary/core/providers/firebase_provider.dart';
 import 'package:college_diary/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -60,10 +59,7 @@ class AuthRepository {
         password: password,
       );
 
-      // if (kDebugMode) print("Sign in repo: $userCredential");
-
       if (userCredential.user != null) {
-        // if (kDebugMode) print("repo $userCredential");
         final userData = await getUserData(userCredential.user!.uid).first;
         return right(userData);
       } else {
@@ -94,8 +90,6 @@ class AuthRepository {
         final enrollmentFound =
             await checkValidEnrollment(enrollmentNumber.toLowerCase());
 
-        if (kDebugMode) print(enrollmentFound);
-
         if (!enrollmentFound) {
           throw "Enrollment Already exist";
         }
@@ -107,6 +101,7 @@ class AuthRepository {
           uid: userCredential.user!.uid,
           name: name,
           email: email,
+          joinedClub: [],
           phoneNumber: phoneNumber,
           enrollmentNumber: enrollmentNumber.toUpperCase(),
           profilePic:
@@ -129,7 +124,8 @@ class AuthRepository {
 
   Stream<UserModel> getUserData(String uid) {
     return _user.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+          (event) => UserModel.fromMap(event.data() as Map<String, dynamic>),
+        );
   }
 
   Future<bool> checkValidEnrollment(String enrollment) async {
@@ -158,7 +154,7 @@ class AuthRepository {
     }
   }
 
-  Future<void> signoutUser() async {
+  void signoutUser() async {
     await _auth.signOut();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:college_diary/features/auth/repository/auth_provider.dart';
+import 'package:college_diary/features/auth/repository/auth_repository.dart';
 import 'package:college_diary/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,9 +75,6 @@ class AuthController extends StateNotifier<bool> {
       state = true;
       final user =
           await _authRepository.signin(email: email, password: password);
-      // if (kDebugMode) {
-      //   print("singin controller -  ${user.fold((l) => l.message, (r) => r)}");
-      // }
       state = false;
       user.fold(
         (l) {
@@ -97,9 +94,10 @@ class AuthController extends StateNotifier<bool> {
     return _authRepository.getUserData(uid);
   }
 
-  Future<void> signout() async {
+  void signout() async {
     state = true;
-    await _authRepository.signoutUser();
+    _authRepository.signoutUser();
+    _ref.invalidate(userProvider);
     state = false;
   }
 

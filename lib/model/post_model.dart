@@ -1,22 +1,29 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
 
 class Post {
   final String pid;
   final String uid;
+  final String userName;
+  final String department;
+  final String branch;
   final String? content;
-  final List<String> likes;
-  final List<String> dislikes;
+  final likes;
+  final dislikes;
   final String? images;
+  
   final String postType;
   final DateTime createdAt;
-  Post({
+  const Post({
     required this.pid,
     required this.uid,
+    required this.userName,
+    required this.department,
+    required this.branch,
     this.content,
-    required this.likes,
-    required this.dislikes,
     this.images,
+    this.likes,
+    this.dislikes,
     required this.postType,
     required this.createdAt,
   });
@@ -24,9 +31,10 @@ class Post {
   Post copyWith({
     String? pid,
     String? uid,
+    String? userName,
+    String? department,
+    String? branch,
     String? content,
-    List<String>? likes,
-    List<String>? dislikes,
     String? images,
     String? postType,
     DateTime? createdAt,
@@ -34,9 +42,10 @@ class Post {
     return Post(
       pid: pid ?? this.pid,
       uid: uid ?? this.uid,
+      userName: userName ?? this.userName,
+      department: department ?? this.department,
+      branch: branch ?? this.branch,
       content: content ?? this.content,
-      likes: likes ?? this.likes,
-      dislikes: dislikes ?? this.dislikes,
       images: images ?? this.images,
       postType: postType ?? this.postType,
       createdAt: createdAt ?? this.createdAt,
@@ -47,9 +56,10 @@ class Post {
     return <String, dynamic>{
       'pid': pid,
       'uid': uid,
+      'userName': userName,
+      'department': department,
+      'branch': branch,
       'content': content,
-      'likes': likes,
-      'dislikes': dislikes,
       'images': images,
       'postType': postType,
       'createdAt': createdAt.millisecondsSinceEpoch,
@@ -60,23 +70,36 @@ class Post {
     return Post(
       pid: map['pid'] as String,
       uid: map['uid'] as String,
+      userName: map['userName'] as String,
+      department: map['department'] as String,
+      branch: map['branch'] as String,
       content: map['content'] != null ? map['content'] as String : null,
-      likes: List<String>.from((map['likes'] as List<String>)),
-      dislikes: List<String>.from((map['dislikes'] as List<String>)),
       images: map['images'] != null ? map['images'] as String : null,
       postType: map['postType'] as String,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Post.fromJson(String source) =>
+      Post.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'Post(pid: $pid, uid: $uid, userName: $userName, department: $department, branch: $branch, content: $content, images: $images, postType: $postType, createdAt: $createdAt)';
+  }
+
   @override
   bool operator ==(covariant Post other) {
     if (identical(this, other)) return true;
 
     return other.pid == pid &&
         other.uid == uid &&
+        other.userName == userName &&
+        other.department == department &&
+        other.branch == branch &&
         other.content == content &&
-        listEquals(other.likes, likes) &&
-        listEquals(other.dislikes, dislikes) &&
         other.images == images &&
         other.postType == postType &&
         other.createdAt == createdAt;
@@ -86,16 +109,12 @@ class Post {
   int get hashCode {
     return pid.hashCode ^
         uid.hashCode ^
+        userName.hashCode ^
+        department.hashCode ^
+        branch.hashCode ^
         content.hashCode ^
-        likes.hashCode ^
-        dislikes.hashCode ^
         images.hashCode ^
         postType.hashCode ^
         createdAt.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'Post(pid: $pid, uid: $uid, content: $content, likes: $likes, dislikes: $dislikes, images: $images, postType: $postType, createdAt: $createdAt)';
   }
 }

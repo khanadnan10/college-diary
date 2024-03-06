@@ -19,17 +19,29 @@ class PostRepository {
 
   CollectionReference get _posts =>
       _firestore.collection(FirebaseCollection.postCollection);
-  FutureVoid addPost(Post post) async {
+
+  FutureVoid createPost(Post post) async {
     try {
       final res = await _posts.doc(post.pid).set(post.toMap());
-      if (kDebugMode) {
-        print(post);
-      }
       return right(res);
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
       return left(Failure(e.toString()));
     }
+  }
+
+  Stream<List<Post>> getAllPost() => _posts
+      .orderBy("createdAt", descending: true)
+      .snapshots()
+      .map((event) => event.docs
+          .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+          .toList());
+
+  Stream<Post> getPostById(String name) {
+    return _posts
+        .doc(name)
+        .snapshots()
+        .map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
   }
 }
