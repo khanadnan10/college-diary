@@ -4,7 +4,6 @@ import 'package:college_diary/core/failure.dart';
 import 'package:college_diary/core/providers/firebase_provider.dart';
 import 'package:college_diary/core/type_def.dart';
 import 'package:college_diary/model/post_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 

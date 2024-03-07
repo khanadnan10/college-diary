@@ -69,7 +69,7 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
             ),
           ),
         ),
-        body: isLoading ? const Loader() : screens[selectedIndex],
+        body: isLoading ? const Loader() : bottomNavScreens[selectedIndex],
       ),
     );
   }

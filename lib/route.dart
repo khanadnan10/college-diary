@@ -4,6 +4,7 @@ import 'package:college_diary/features/auth/screen/auth.dart';
 import 'package:college_diary/features/home/screen/home_screen.dart';
 import 'package:college_diary/features/home/screen/bottom_nav_bar.dart';
 import 'package:college_diary/features/post/screen/post_detail_screen.dart';
+import 'package:college_diary/features/search/screen/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -16,6 +17,7 @@ final loggedOutRoute = RouteMap(routes: {
 final loggedInRoute = RouteMap(routes: {
   RouteName.initial: (_) => const MaterialPage(child: BottomNavBar()),
   RouteName.homeScreen: (_) => const MaterialPage(child: HomeScreen()),
+  RouteName.searchScreen: (_) => const MaterialPage(child: SearchScreen()),
   RouteName.postDetailScreen: (route) => MaterialPage(
           child: PostDetailScreen(
         postId: route.pathParameters['postId']!,
