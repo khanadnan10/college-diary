@@ -61,6 +61,13 @@ class AuthRepository {
 
       if (userCredential.user != null) {
         final userData = await getUserData(userCredential.user!.uid).first;
+        if (userData.isBanned) {
+          return left(
+            Failure(
+              'true',
+            ),
+          );
+        }
         return right(userData);
       } else {
         return left(Failure('No user found with this email.'));
@@ -134,6 +141,18 @@ class AuthRepository {
         .get()
         .then((value) => value.docs.isEmpty);
   }
+
+  // Future<bool> checkBannedUser(String uid) async {
+  //   final status = await _user.where('uid', isEqualTo: uid).get().then(
+  //       (value) => value.docs
+  //           .map((e) => (e.data() as Map<String, dynamic>)['isBanned']));
+
+  //   print(status);
+  //   if (status == true) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   FutureEither<bool> verifyInvitationCode(
       {required String invitationCode}) async {

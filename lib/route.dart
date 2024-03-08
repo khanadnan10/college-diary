@@ -1,3 +1,4 @@
+import 'package:college_diary/core/banned_screen.dart';
 import 'package:college_diary/core/invitation_verification.dart';
 import 'package:college_diary/core/route_name.dart';
 import 'package:college_diary/features/auth/screen/auth.dart';
@@ -15,6 +16,11 @@ final loggedOutRoute = RouteMap(routes: {
       ),
   RouteName.invitationVerification: (_) => const MaterialPage(
         child: InvitationVerification(),
+      ),
+});
+final bannedRoute = RouteMap(routes: {
+  RouteName.bannedScreen: (_) => const MaterialPage(
+        child: BannedScreen(),
       ),
 });
 

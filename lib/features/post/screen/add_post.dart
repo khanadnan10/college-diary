@@ -76,7 +76,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userProfile = ref.watch(userProvider)!.profilePic.isEmpty;
+    final userProfile = ref.watch(userProvider)!;
     return ref.watch(postControllerProvider)
         ? const Loader()
         : Column(
@@ -90,9 +90,11 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                         elevation: 0,
                         backgroundColor: Pallete.blueColor,
                       ),
-                      onPressed: selectedImages != null
-                          ? uploadPublicPostWithImage
-                          : uploadPublicTextPost,
+                      onPressed: userProfile.isBanned
+                          ? null
+                          : selectedImages != null
+                              ? uploadPublicPostWithImage
+                              : uploadPublicTextPost,
                       child: const Text(
                         'Post',
                         style: TextStyle(
@@ -118,7 +120,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: userProfile
+                              child: userProfile.profilePic.isEmpty
                                   ? const CircleAvatar()
                                   : CircleAvatar(
                                       radius: 26.0,

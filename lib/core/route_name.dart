@@ -6,4 +6,5 @@ class RouteName {
   static const String searchScreen = '/search-screen';
   static const String postDetailScreen = '/post-detail/:postId';
   static const String profileScreen = '/profile/:uid';
+  static const String bannedScreen = '/banned';
 }
