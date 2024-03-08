@@ -1,4 +1,4 @@
-import 'package:college_diary/core/common/widgets/custom_elevated_button.dart';
+import 'package:college_diary/core/widgets/custom_elevated_button.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/theme/pallete.dart';

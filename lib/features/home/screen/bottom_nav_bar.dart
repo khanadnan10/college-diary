@@ -1,4 +1,4 @@
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/constants/list_of_screen.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/home/controller/bottom_nav_bar_controller.dart';

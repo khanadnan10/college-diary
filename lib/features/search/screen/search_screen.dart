@@ -1,9 +1,10 @@
-import 'package:college_diary/core/common/widgets/error_text.dart';
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/error_text.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/features/search/controller/search_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 final searchTextProvider = StateProvider<String>((ref) => '');
 
@@ -15,6 +16,10 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
+  void navigateToProfileScreen(BuildContext context, String uid) {
+    Routemaster.of(context).push("/profile/$uid");
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -72,12 +77,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 .watch(searchUserControllerProvider(
                     (ref.watch(searchTextProvider))))
                 .when(
-                  data: (communites) {
+                  data: (users) {
                     return ListView.builder(
-                      itemCount: communites.length,
+                      itemCount: users.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final community = communites[index];
-                        if (communites.isEmpty) {
+                        final user = users[index];
+                        if (users.isEmpty) {
                           return const Center(
                             child: Text(
                               'No user found.',
@@ -86,13 +91,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         }
                         return ListTile(
                           leading: CircleAvatar(
-                            backgroundImage: NetworkImage(community.profilePic),
+                            backgroundImage: NetworkImage(user.profilePic),
                           ),
-                          subtitle: Text(community.enrollmentNumber
-                              .toString()
-                              .split(" ")[0]),
-                          title: Text(community.name),
-                          // onTap: () => navigateToCommunity(context, community.name),
+                          subtitle: Text(
+                              user.enrollmentNumber.toString().split(" ")[0]),
+                          title: Text(user.name),
+                          onTap: () =>
+                              navigateToProfileScreen(context, user.uid),
                         );
                       },
                     );

@@ -19,12 +19,17 @@ final postControllerProvider =
   );
 });
 
-final getPostById = StreamProvider.family((ref, String name) {
+final getPostById = StreamProvider.autoDispose.family((ref, String name) {
   return ref.watch(postRepositoryProvider).getPostById(name);
 });
 
-final getAllPostProvider = StreamProvider((ref) {
+final getAllPostProvider = StreamProvider.autoDispose((ref) {
   return ref.watch(postControllerProvider.notifier).getAllPost();
+});
+
+final getCurrentUserPost =
+    FutureProvider.autoDispose.family((ref, String userId) {
+  return ref.watch(postControllerProvider.notifier).getCurrentUserPost(userId);
 });
 
 class PostController extends StateNotifier<bool> {
@@ -121,5 +126,9 @@ class PostController extends StateNotifier<bool> {
 
   Stream<Post> getPostById(String name) {
     return _ref.watch(postRepositoryProvider).getPostById(name);
+  }
+
+  Future<List<Post>> getCurrentUserPost(String userId) async {
+    return await _ref.watch(postRepositoryProvider).getCurrentUserPost(userId);
   }
 }

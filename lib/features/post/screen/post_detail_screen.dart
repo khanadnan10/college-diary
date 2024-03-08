@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:college_diary/core/common/widgets/error_text.dart';
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/error_text.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/enums/post_enum.dart';
 import 'package:college_diary/features/post/controller/post_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shimmer/shimmer.dart';
@@ -18,6 +19,10 @@ class PostDetailScreen extends ConsumerWidget {
   }) : super(key: key);
 
   void popBack(BuildContext context) => Routemaster.of(context).pop();
+
+  void navigateToProfileScreen(BuildContext context, String uid) {
+    Routemaster.of(context).push("/profile/$uid");
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,57 +78,60 @@ class PostDetailScreen extends ConsumerWidget {
                             )
                           : const SizedBox(),
                       const SizedBox(height: 40.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              (data.images != null)
-                                  ? CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(data.images!),
-                                    )
-                                  : const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/images/blank_profile_picture.png'),
+                      GestureDetector(
+                        onTap: () => navigateToProfileScreen(context, data.uid),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                (data.images != null)
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(data.images!),
+                                      )
+                                    : const CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            'assets/images/blank_profile_picture.png'),
+                                      ),
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data.userName,
+                                      maxLines: 1,
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: Pallete.whiteColor,
+                                        fontSize: 16.0,
+                                      ),
                                     ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data.userName,
-                                    maxLines: 1,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: Pallete.whiteColor,
-                                      fontSize: 16.0,
+                                    Text(
+                                      "${data.branch}, ${data.department}",
+                                      style: TextStyle(
+                                        color:
+                                            Pallete.whiteColor.withOpacity(0.5),
+                                        fontSize: 10.0,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "${data.branch}, ${data.department}",
-                                    style: TextStyle(
-                                      color:
-                                          Pallete.whiteColor.withOpacity(0.5),
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Text(
-                            timeago.format(data.createdAt),
-                            style: const TextStyle(
-                              color: Pallete.whiteColor,
-                              fontSize: 10.0,
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
-                        ],
+                            Text(
+                              timeago.format(data.createdAt),
+                              style: const TextStyle(
+                                color: Pallete.whiteColor,
+                                fontSize: 10.0,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 10.0),
                       Text(

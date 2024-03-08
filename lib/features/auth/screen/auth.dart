@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
-import 'package:college_diary/core/common/widgets/custom_elevated_button.dart';
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/custom_elevated_button.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/route_name.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:college_diary/core/common/widgets/custom_text_field.dart';
+import 'package:college_diary/core/widgets/custom_text_field.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';

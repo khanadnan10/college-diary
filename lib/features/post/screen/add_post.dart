@@ -1,13 +1,12 @@
 import 'dart:typed_data';
 
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/enums/post_enum.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/post/controller/post_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 

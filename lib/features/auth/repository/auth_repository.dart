@@ -88,7 +88,7 @@ class AuthRepository {
         // check if the enrollment is already assigned to other user
 
         final enrollmentFound =
-            await checkValidEnrollment(enrollmentNumber.toLowerCase());
+            await checkValidEnrollment(enrollmentNumber.toUpperCase());
 
         if (!enrollmentFound) {
           throw "Enrollment Already exist";

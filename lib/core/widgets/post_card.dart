@@ -1,6 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:college_diary/core/enums/post_enum.dart';
@@ -10,6 +11,7 @@ class PostCard extends StatelessWidget {
   const PostCard({
     Key? key,
     required this.userName,
+    required this.uid,
     required this.avatar,
     required this.branch,
     required this.department,
@@ -20,6 +22,7 @@ class PostCard extends StatelessWidget {
   }) : super(key: key);
 
   final String userName;
+  final String uid;
   final String avatar;
   final String branch;
   final String department;
@@ -28,58 +31,68 @@ class PostCard extends StatelessWidget {
   final String time;
   final String postType;
 
+  void navigateToProfileScreen(BuildContext context, String uid) {
+    Routemaster.of(context).push("/profile/$uid");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      margin: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
         color: Pallete.whiteColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(avatar),
-                  ),
-                  const SizedBox(
-                    width: 10.0,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userName,
-                        maxLines: 1,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Pallete.blueColor,
-                          fontSize: 16.0,
+          GestureDetector(
+            onTap: () => navigateToProfileScreen(context, uid),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(avatar),
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userName,
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Pallete.blueColor,
+                            fontSize: 16.0,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "$branch, $department",
-                        style: TextStyle(
-                          color: Pallete.blueColor.withOpacity(0.5),
-                          fontSize: 10.0,
+                        Text(
+                          "$branch, $department",
+                          style: TextStyle(
+                            color: Pallete.blueColor.withOpacity(0.5),
+                            fontSize: 10.0,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              Text(
-                time,
-                style: TextStyle(
-                  color: Pallete.blueColor.withOpacity(0.5),
-                  fontSize: 10.0,
+                      ],
+                    )
+                  ],
                 ),
-              ),
-            ],
+                Text(
+                  time,
+                  style: TextStyle(
+                    color: Pallete.blueColor.withOpacity(0.5),
+                    fontSize: 10.0,
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 10.0),
           Text(
@@ -122,7 +135,7 @@ class PostCard extends StatelessWidget {
                   ),
                 )
               : const SizedBox(),
-          const SizedBox(height: 30.0),
+          const SizedBox(height: 10.0),
         ],
       ),
     );

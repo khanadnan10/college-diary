@@ -1,5 +1,5 @@
-import 'package:college_diary/core/common/widgets/error_text.dart';
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/error_text.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/widgets/post_card.dart';
 import 'package:college_diary/features/post/controller/post_controller.dart';
 import 'package:college_diary/model/post_model.dart';
@@ -25,29 +25,45 @@ class HomeScreen extends ConsumerWidget {
           return [
             SliverAppBar(
               backgroundColor: Pallete.blueColor,
-              expandedHeight: 100,
               floating: true,
               snap: true,
-              flexibleSpace: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        "Explore Feed",
-                        style: TextStyle(
-                          color: Pallete.whiteColor,
-                          fontSize: 24.0,
-                        ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
+              title: const Row(
+                children: [
+                  Icon(
+                    Icons.line_weight_rounded,
+                    color: Pallete.whiteColor,
+                  ),
+                  Text(
+                    "Explore",
+                    style: TextStyle(
+                      color: Pallete.whiteColor,
+                      fontSize: 24.0,
                     ),
-                    //TODO: Show latest News by Admin here
-                  ],
-                ),
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                  ),
+                ],
               ),
+              // flexibleSpace: Padding(
+              //   padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
+              //   child: const Column(
+              //     crossAxisAlignment: CrossAxisAlignment.stretch,
+              //     children: [
+              //       Flexible(
+              //         child: Text(
+              //           "Explore",
+              //           style: TextStyle(
+              //             color: Pallete.whiteColor,
+              //             fontSize: 24.0,
+              //           ),
+              //           softWrap: true,
+              //           overflow: TextOverflow.fade,
+              //         ),
+              //       ),
+              //       //TODO: Show latest News or Notification by Admin here
+              //     ],
+              //   ),
+              // ),
             ),
           ];
         },
@@ -57,7 +73,7 @@ class HomeScreen extends ConsumerWidget {
               topLeft: Radius.circular(24),
               topRight: Radius.circular(24.0),
             ),
-            color: Pallete.whiteColor,
+            color: Color.fromARGB(255, 252, 252, 252),
           ),
           child: ref.watch(getAllPostProvider).when(
                 data: (data) {
@@ -73,12 +89,11 @@ class HomeScreen extends ConsumerWidget {
                   }
                   return ListView.builder(
                     shrinkWrap: true,
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.all(16.0),
                     itemBuilder: (context, index) {
                       final postCard = data[index];
                       return InkWell(
                         onLongPress: () {
-                          print('Noice');
                           //TODO: Admin and current user activities
                         },
                         onTap: () =>
@@ -90,6 +105,7 @@ class HomeScreen extends ConsumerWidget {
                           department: postCard.department,
                           image: postCard.images,
                           postType: postCard.postType,
+                          uid: postCard.uid,
                           content: postCard.content ?? "",
                           time: timeago.format(postCard.createdAt),
                         ),

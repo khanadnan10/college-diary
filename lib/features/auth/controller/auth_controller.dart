@@ -26,6 +26,10 @@ final authStateChangeProvider = StreamProvider((ref) {
   return authController.authStateChange;
 });
 
+final signOutProvider = Provider((ref) async {
+  return ref.read(authControllerProvider.notifier).signout();
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthRepository _authRepository;
   final Ref _ref;
@@ -48,6 +52,7 @@ class AuthController extends StateNotifier<bool> {
   }) async {
     try {
       state = true;
+
       final user = await _authRepository.signupUser(
         name: name.trim(),
         email: email.trim(),
@@ -95,10 +100,8 @@ class AuthController extends StateNotifier<bool> {
   }
 
   void signout() async {
-    state = true;
     _authRepository.signoutUser();
     _ref.invalidate(userProvider);
-    state = false;
   }
 
   void verifyInvitationCode({

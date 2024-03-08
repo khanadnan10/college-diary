@@ -1,5 +1,5 @@
-import 'package:college_diary/core/common/widgets/error_text.dart';
-import 'package:college_diary/core/common/widgets/loader.dart';
+import 'package:college_diary/core/widgets/error_text.dart';
+import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/firebase_options.dart';
 import 'package:college_diary/model/user_model.dart';
