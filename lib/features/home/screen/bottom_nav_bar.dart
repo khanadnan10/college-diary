@@ -22,13 +22,9 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: Container(
-          // padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
           color: Colors.transparent,
           child: ClipRRect(
-            // borderRadius: const BorderRadius.only(
-            //   topLeft: Radius.circular(24.0),
-            //   topRight: Radius.circular(24.0),
-            // ),
+           
             child: BottomNavigationBar(
               showSelectedLabels: false,
               showUnselectedLabels: false,

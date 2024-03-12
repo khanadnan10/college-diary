@@ -21,10 +21,21 @@ class PostRepository {
   CollectionReference get _posts =>
       _firestore.collection(FirebaseCollection.postCollection);
 
-  FutureVoid createPost(Post post) async {
+  Futureeither createPost(Post post) async {
     try {
       final res = await _posts.doc(post.pid).set(post.toMap());
       return right(res);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<bool> deletePost(Post post) async {
+    try {
+      await _posts.doc(post.pid).delete();
+      return right(true);
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -47,15 +58,16 @@ class PostRepository {
   }
 
   Future<List<Post>> getCurrentUserPost(String userId) async {
-    Query<Map<String, dynamic>> query;
+    Query query;
 
-    query = _firestore
-        .collection('post')
+    query = _posts
         .orderBy('createdAt', descending: true)
         .where('uid', isEqualTo: userId);
 
     final querySnapshot = await query.get();
 
-    return querySnapshot.docs.map((doc) => Post.fromMap(doc.data())).toList();
+    return querySnapshot.docs
+        .map((doc) => Post.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
   }
 }

@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 import 'package:college_diary/core/providers/storage_provider.dart';
+import 'package:college_diary/core/type_def.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/post/repository/post_repository.dart';
 import 'package:college_diary/model/post_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -118,6 +120,25 @@ class PostController extends StateNotifier<bool> {
         showSnackBar(context, 'Posted successfully!');
       },
     );
+  }
+
+  void deletePost(BuildContext context, Post post) async {
+    try {
+      if (post.images != null) {
+        await _storageRepository.deleteFile(
+          path: "post/${post.uid}",
+          id: post.pid,
+        );
+      }
+      await _postRepository.deletePost(post);
+      if (context.mounted) showSnackBar(context, 'Post deleted successfully.');
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, e.toString());
+      }
+    }
   }
 
   Stream<List<Post>> getAllPost() {

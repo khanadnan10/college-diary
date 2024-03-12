@@ -2,7 +2,8 @@ import 'package:college_diary/features/search/repository/search_repository.dart'
 import 'package:college_diary/model/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final searchUserControllerProvider = StreamProvider.family.autoDispose((ref, String query) {
+final searchUserControllerProvider =
+    StreamProvider.family.autoDispose((ref, String query) {
   return ref.watch(searchControllerProvider.notifier).searchCommunity(query);
 });
 
@@ -20,6 +21,9 @@ class SearchController extends StateNotifier<bool> {
         super(false);
 
   Stream<List<UserModel>> searchCommunity(String query) {
+    if (query.isEmpty) {
+      return Stream.value([]);
+    }
     return _searchRepository.searchCommunity(query);
   }
 }

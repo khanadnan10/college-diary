@@ -26,12 +26,25 @@ class StorageRepository {
     bool isPublicPost = true,
   }) async {
     try {
-      Reference ref = _firebaseStorage.ref().child(path).child(id);
+      final Reference ref = _firebaseStorage.ref().child(path).child(id);
       UploadTask uploadTask = ref.putData(file);
 
       final snapshot = await uploadTask;
 
       return right(await snapshot.ref.getDownloadURL());
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<bool> deleteFile({
+    required String path,
+    required String id,
+  }) async {
+    try {
+      final Reference ref = _firebaseStorage.ref().child(path).child(id);
+      await ref.delete();
+      return right(true);
     } catch (e) {
       return left(Failure(e.toString()));
     }

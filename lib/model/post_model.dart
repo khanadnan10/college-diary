@@ -11,7 +11,6 @@ class Post {
   final likes;
   final dislikes;
   final String? images;
-  
   final String postType;
   final DateTime createdAt;
   const Post({

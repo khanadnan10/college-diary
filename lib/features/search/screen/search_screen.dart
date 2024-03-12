@@ -1,5 +1,8 @@
+import 'package:college_diary/core/banned_screen.dart';
+import 'package:college_diary/core/route_name.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
+import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/search/controller/search_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +19,10 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
-  void navigateToProfileScreen(BuildContext context, String uid) {
-    Routemaster.of(context).push("/profile/$uid");
+  void navigateToProfileScreen(BuildContext context, String userId) {
+    // Routemaster.of(context).push("/profile/$uid");
+    Routemaster.of(context)
+        .push((RouteName.profileScreen).replaceFirst(':uid', userId));
   }
 
   @override
@@ -66,45 +71,47 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ),
           ),
         ),
-        body: ref.watch(searchTextProvider).isEmpty
-            ? const Center(
-                child: Text(
-                  'Try Capitalising the first Letter.. \n e.g Sandip',
-                  textAlign: TextAlign.center,
-                ),
-              )
-            : ref
-                .watch(searchUserControllerProvider(
-                    (ref.watch(searchTextProvider))))
-                .when(
-                  data: (users) {
-                    return ListView.builder(
-                      itemCount: users.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final user = users[index];
-                        if (users.isEmpty) {
-                          return const Center(
-                            child: Text(
-                              'No user found.',
-                            ),
-                          );
-                        }
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(user.profilePic),
-                          ),
-                          subtitle: Text(
-                              user.enrollmentNumber.toString().split(" ")[0]),
-                          title: Text(user.name),
-                          onTap: () =>
-                              navigateToProfileScreen(context, user.uid),
+        body: ref.watch(userProvider)!.isBanned
+            ? const BannedScreen()
+            : ref.watch(searchTextProvider).isEmpty
+                ? const Center(
+                    child: Text(
+                      'Try Capitalising the first Letter.. \n e.g Sandip',
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ref
+                    .watch(searchUserControllerProvider(
+                        (ref.watch(searchTextProvider))))
+                    .when(
+                      data: (users) {
+                        return ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: users.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final user = users[index];
+                            if (users.isEmpty) {
+                              return const Center(
+                                child: Text(
+                                  'No user found.',
+                                ),
+                              );
+                            }
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(user.profilePic),
+                              ),
+                              subtitle: Text(user.enrollmentNumber.toString()),
+                              title: Text(user.name),
+                              onTap: () =>
+                                  navigateToProfileScreen(context, user.uid),
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  error: (error, st) => ErrorText(error: error.toString()),
-                  loading: () => const Loader(),
-                ),
+                      error: (error, st) => ErrorText(error: error.toString()),
+                      loading: () => const Loader(),
+                    ),
       ),
     );
   }

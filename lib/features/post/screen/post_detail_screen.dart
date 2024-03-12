@@ -5,7 +5,6 @@ import 'package:college_diary/core/enums/post_enum.dart';
 import 'package:college_diary/features/post/controller/post_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shimmer/shimmer.dart';

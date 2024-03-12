@@ -61,13 +61,13 @@ class AuthRepository {
 
       if (userCredential.user != null) {
         final userData = await getUserData(userCredential.user!.uid).first;
-        if (userData.isBanned) {
-          return left(
-            Failure(
-              'true',
-            ),
-          );
-        }
+        // if (userData.isBanned) {
+        //   return left(
+        //     Failure(
+        //       'true',
+        //     ),
+        //   );
+        // }
         return right(userData);
       } else {
         return left(Failure('No user found with this email.'));

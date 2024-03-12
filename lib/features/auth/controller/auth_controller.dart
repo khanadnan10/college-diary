@@ -84,14 +84,16 @@ class AuthController extends StateNotifier<bool> {
       user.fold(
         (l) {
           state = false;
-          if (l.message == 'true') {
-            Routemaster.of(context).pop('/banned');
-            showSnackBar(
-              context,
-              'You have been banned for unusual acitivity. Consult your HOD or TG for further information.',
-            );
-            _ref.read(signOutProvider);
-          }
+
+          // TODO: Banned user filtration and routing
+          // if (l.message == 'true') {
+          //   Routemaster.of(context).pop('/banned');
+          //   showSnackBar(
+          //     context,
+          //     'You have been banned for unusual acitivity. Consult your HOD or TG for further information.',
+          //   );
+          //   _ref.read(signOutProvider);
+          // }
           showSnackBar(context, l.message);
         },
         (userModel) =>
