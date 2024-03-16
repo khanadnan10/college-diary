@@ -1,4 +1,5 @@
 import 'package:college_diary/core/banned_screen.dart';
+import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/widgets/post_card.dart';
@@ -8,6 +9,7 @@ import 'package:college_diary/model/post_model.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -30,6 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = ref.watch(userProvider);
     return Scaffold(
       backgroundColor: Pallete.blueColor,
       body: NestedScrollView(
@@ -39,17 +42,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               backgroundColor: Pallete.blueColor,
               floating: true,
               snap: true,
-              title: const Row(
+              title: Row(
                 children: [
-                  Icon(
-                    Icons.line_weight_rounded,
-                    color: Pallete.whiteColor,
-                  ),
+                  // Icon(
+                  //   Icons.school,
+                  //   color: Pallete.whiteColor,
+                  // ),
+                  // SizedBox(
+                  //   width: 5,
+                  // ),
                   Text(
-                    "Explore",
-                    style: TextStyle(
+                    "College Diary",
+                    style: GoogleFonts.gloriaHallelujah(
                       color: Pallete.whiteColor,
-                      fontSize: 24.0,
+                      fontSize: 26.0,
                     ),
                     softWrap: true,
                     overflow: TextOverflow.fade,
@@ -88,7 +94,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               color: Pallete.greyColor.withOpacity(0.2)
               // color: Color.fromARGB(255, 252, 252, 252), //@ Color combo
               ),
-          child: ref.watch(userProvider) == null
+          child: currentUser == null
               ? const Loader()
               : ref.watch(userProvider)!.isBanned
                   ? const BannedScreen()
@@ -113,13 +119,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               return InkWell(
                                 onLongPress: () {
                                   //TODO: Admin and current user activities
+                                  if (currentUser.uid == postCard.uid) {
+                                    showCustomDeleteBottomSheet(
+                                      context,
+                                      ref,
+                                      postCard,
+                                    );
+                                  } else if (currentUser.isAdmin) {
+                                    showCustomDeleteBottomSheet(
+                                        context, ref, postCard,
+                                        color: Colors.red,
+                                        description:
+                                            "Admin has the authority to take disciplinary action on any post. Do you want to delete this post?");
+                                  }
                                 },
                                 onTap: () => navigateToPostDetailScreen(
                                     context, postCard),
                                 child: PostCard(
                                   userName: postCard.userName,
-                                  avatar:
-                                      'assets/images/blank_profile_picture.png',
+                                  avatar: postCard.avatar != null
+                                      ? postCard.avatar!
+                                      : 'assets/images/blank_profile_picture.png',
                                   branch: postCard.branch,
                                   department: postCard.department,
                                   image: postCard.images,

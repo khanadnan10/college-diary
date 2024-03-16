@@ -1,6 +1,7 @@
 import 'package:college_diary/core/providers/firebase_provider.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/home/screen/home_screen.dart';
+import 'package:college_diary/features/news/screen/news_screen.dart';
 import 'package:college_diary/features/post/screen/add_post.dart';
 import 'package:college_diary/features/profile/screen/profile_screen.dart';
 import 'package:college_diary/features/search/screen/search_screen.dart';
@@ -27,9 +28,7 @@ List<Widget> bottomNavScreens = [
           : const AddPostScreen();
     },
   ),
-  const Center(
-    child: Text('News screen'),
-  ),
+  const NewsScreen(),
   Consumer(
     builder: (context, ref, _) {
       final uid = ref.watch(firebaseAuthProvider).currentUser!.uid;

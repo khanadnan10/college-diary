@@ -4,6 +4,8 @@ import 'package:college_diary/core/route_name.dart';
 import 'package:college_diary/features/auth/screen/auth.dart';
 import 'package:college_diary/features/home/screen/home_screen.dart';
 import 'package:college_diary/features/home/screen/bottom_nav_bar.dart';
+import 'package:college_diary/features/news/screen/create_news.dart';
+import 'package:college_diary/features/news/screen/news_detail_screen.dart';
 import 'package:college_diary/features/post/screen/post_detail_screen.dart';
 import 'package:college_diary/features/profile/screen/profile_screen.dart';
 import 'package:college_diary/features/search/screen/search_screen.dart';
@@ -35,11 +37,21 @@ final loggedInRoute = RouteMap(routes: {
         child: SearchScreen(),
       ),
   RouteName.postDetailScreen: (route) => MaterialPage(
-          child: PostDetailScreen(
-        postId: route.pathParameters['postId']!,
-      )),
+        child: PostDetailScreen(
+          postId: route.pathParameters['postId']!,
+        ),
+      ),
   RouteName.profileScreen: (route) => MaterialPage(
-          child: ProfileScreen(
-        uid: route.pathParameters['uid']!,
-      )),
+        child: ProfileScreen(
+          uid: route.pathParameters['uid']!,
+        ),
+      ),
+  RouteName.createNewsScreen: (_) => const MaterialPage(
+        child: CreateNews(),
+      ),
+  RouteName.newsDetailScreen: (route) => MaterialPage(
+        child: NewsDetailsScreen(
+          newsId: route.pathParameters['newsId']!,
+        ),
+      ),
 });

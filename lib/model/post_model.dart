@@ -5,6 +5,7 @@ class Post {
   final String pid;
   final String uid;
   final String userName;
+  final String? avatar;
   final String department;
   final String branch;
   final String? content;
@@ -21,6 +22,7 @@ class Post {
     required this.branch,
     this.content,
     this.images,
+    required this.avatar,
     this.likes,
     this.dislikes,
     required this.postType,
@@ -31,6 +33,7 @@ class Post {
     String? pid,
     String? uid,
     String? userName,
+    String? avatar,
     String? department,
     String? branch,
     String? content,
@@ -42,6 +45,7 @@ class Post {
       pid: pid ?? this.pid,
       uid: uid ?? this.uid,
       userName: userName ?? this.userName,
+      avatar: avatar ?? this.avatar,
       department: department ?? this.department,
       branch: branch ?? this.branch,
       content: content ?? this.content,
@@ -56,6 +60,7 @@ class Post {
       'pid': pid,
       'uid': uid,
       'userName': userName,
+      'avatar': avatar,
       'department': department,
       'branch': branch,
       'content': content,
@@ -70,6 +75,7 @@ class Post {
       pid: map['pid'] as String,
       uid: map['uid'] as String,
       userName: map['userName'] as String,
+      avatar: map['avatar'] != null ? map['avatar'] as String : null,
       department: map['department'] as String,
       branch: map['branch'] as String,
       content: map['content'] != null ? map['content'] as String : null,
@@ -86,7 +92,7 @@ class Post {
 
   @override
   String toString() {
-    return 'Post(pid: $pid, uid: $uid, userName: $userName, department: $department, branch: $branch, content: $content, images: $images, postType: $postType, createdAt: $createdAt)';
+    return 'Post(pid: $pid, uid: $uid, userName: $userName, avatar: $avatar, department: $department, branch: $branch, content: $content, images: $images, postType: $postType, createdAt: $createdAt)';
   }
 
   @override
@@ -96,6 +102,7 @@ class Post {
     return other.pid == pid &&
         other.uid == uid &&
         other.userName == userName &&
+        other.avatar == avatar &&
         other.department == department &&
         other.branch == branch &&
         other.content == content &&
@@ -109,6 +116,7 @@ class Post {
     return pid.hashCode ^
         uid.hashCode ^
         userName.hashCode ^
+        avatar.hashCode ^
         department.hashCode ^
         branch.hashCode ^
         content.hashCode ^

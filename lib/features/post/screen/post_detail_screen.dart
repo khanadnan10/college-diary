@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/enums/post_enum.dart';
@@ -6,8 +5,8 @@ import 'package:college_diary/features/post/controller/post_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/widgets/custom_cached_netork_image.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostDetailScreen extends ConsumerWidget {
@@ -48,32 +47,7 @@ class PostDetailScreen extends ConsumerWidget {
                       data.postType == PostType.image.name.toString()
                           ? AspectRatio(
                               aspectRatio: 1 / 0.8,
-                              child: CachedNetworkImage(
-                                imageUrl: data.images!,
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.grey.shade100,
-                                  enabled: true,
-                                  child: Container(
-                                    color: Pallete.greyColor.withOpacity(0.3),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Center(
-                                  child: Icon(Icons.error),
-                                ),
-                              ),
+                              child: customCachedNetworkImage(data.images!),
                             )
                           : const SizedBox(),
                       const SizedBox(height: 40.0),
@@ -88,7 +62,7 @@ class PostDetailScreen extends ConsumerWidget {
                                 (data.images != null)
                                     ? CircleAvatar(
                                         backgroundImage:
-                                            NetworkImage(data.images!),
+                                            NetworkImage(data.avatar!),
                                       )
                                     : const CircleAvatar(
                                         backgroundImage: AssetImage(

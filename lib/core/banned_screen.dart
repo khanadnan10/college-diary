@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class BannedScreen extends ConsumerWidget {
   const BannedScreen({super.key});
 
-  void logout(WidgetRef ref) => ref.watch(signOutProvider);
+  void logout(WidgetRef ref) =>
+      ref.watch(authControllerProvider.notifier).signout();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

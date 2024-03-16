@@ -8,4 +8,6 @@ class RouteName {
   static const String profileScreen = '/profile/:uid';
   static const String profileSettingsScreen = '/profile/settings';
   static const String bannedScreen = '/banned';
+  static const String createNewsScreen = '/create-news';
+  static const String newsDetailScreen = '/news-detail/:newsId';
 }

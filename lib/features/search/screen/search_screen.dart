@@ -74,9 +74,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         body: ref.watch(userProvider)!.isBanned
             ? const BannedScreen()
             : ref.watch(searchTextProvider).isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
-                      'Try Capitalising the first Letter.. \n e.g Sandip',
+                      'Didn\'t found the student?\n Try capitalising the first Letter.. \n e.g Sandip',
+                      style: TextStyle(
+                        color: Pallete.greyColor.withOpacity(0.5),
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -99,7 +102,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             }
                             return ListTile(
                               leading: CircleAvatar(
-                                backgroundImage: NetworkImage(user.profilePic),
+                                backgroundImage: NetworkImage(user.profilePic!),
                               ),
                               subtitle: Text(user.enrollmentNumber.toString()),
                               title: Text(user.name),

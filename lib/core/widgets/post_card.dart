@@ -21,7 +21,7 @@ class PostCard extends StatelessWidget {
 
   final String userName;
   final String uid;
-  final String avatar;
+  final String? avatar;
   final String branch;
   final String department;
   final String? image;
@@ -53,7 +53,11 @@ class PostCard extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage(avatar),
+                      backgroundImage: avatar != null
+                          ? NetworkImage(
+                              avatar!,
+                            ) as ImageProvider
+                          : AssetImage(avatar!),
                     ),
                     const SizedBox(
                       width: 10.0,

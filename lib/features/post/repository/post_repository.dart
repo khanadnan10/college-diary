@@ -21,7 +21,7 @@ class PostRepository {
   CollectionReference get _posts =>
       _firestore.collection(FirebaseCollection.postCollection);
 
-  Futureeither createPost(Post post) async {
+  FutureVoid createPost(Post post) async {
     try {
       final res = await _posts.doc(post.pid).set(post.toMap());
       return right(res);

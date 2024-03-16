@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:college_diary/core/providers/storage_provider.dart';
-import 'package:college_diary/core/type_def.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/post/repository/post_repository.dart';
 import 'package:college_diary/model/post_model.dart';
@@ -70,6 +69,7 @@ class PostController extends StateNotifier<bool> {
           pid: postId,
           uid: user.uid,
           branch: 'cse',
+          avatar: user.profilePic!,
           department: 'NIIST',
           userName: user.name,
           likes: [],
@@ -103,6 +103,7 @@ class PostController extends StateNotifier<bool> {
     Post post = Post(
       pid: postId,
       uid: user.uid,
+      avatar: user.profilePic,
       branch: 'cse',
       department: 'NIIST',
       userName: user.name,

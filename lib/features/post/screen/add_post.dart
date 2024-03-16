@@ -120,12 +120,12 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: userProfile.profilePic.isEmpty
+                              child: userProfile.profilePic!.isEmpty
                                   ? const CircleAvatar()
                                   : CircleAvatar(
                                       radius: 26.0,
                                       backgroundImage: NetworkImage(
-                                          ref.read(userProvider)!.profilePic),
+                                          ref.read(userProvider)!.profilePic!),
                                     ),
                             ),
                             Expanded(
@@ -137,7 +137,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                                     child: TextField(
                                       controller: postController,
                                       decoration: const InputDecoration(
-                                        hintText: 'Enter your thoughts...',
+                                        hintText: 'Share your thoughts...',
                                         isDense: true,
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide.none,

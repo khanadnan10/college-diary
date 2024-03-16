@@ -61,13 +61,6 @@ class AuthRepository {
 
       if (userCredential.user != null) {
         final userData = await getUserData(userCredential.user!.uid).first;
-        // if (userData.isBanned) {
-        //   return left(
-        //     Failure(
-        //       'true',
-        //     ),
-        //   );
-        // }
         return right(userData);
       } else {
         return left(Failure('No user found with this email.'));
@@ -111,8 +104,7 @@ class AuthRepository {
           joinedClub: [],
           phoneNumber: phoneNumber,
           enrollmentNumber: enrollmentNumber.toUpperCase(),
-          profilePic:
-              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+          profilePic: null,
           isVerifiedByAdmin: false,
           isBanned: false,
           isAdmin: false,

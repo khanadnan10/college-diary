@@ -9,7 +9,7 @@ class UserModel {
   final String email;
   final String phoneNumber;
   final String enrollmentNumber;
-  final String profilePic;
+  final String? profilePic;
   final bool isVerifiedByAdmin;
   final List<String> joinedClub;
   final bool isBanned;
@@ -75,7 +75,8 @@ class UserModel {
       email: map['email'] as String,
       phoneNumber: map['phoneNumber'] as String,
       enrollmentNumber: map['enrollmentNumber'] as String,
-      profilePic: map['profilePic'] as String,
+      profilePic:
+          map['profilePic'] != null ? map['profilePic'] as String : null,
       isVerifiedByAdmin: map['isVerifiedByAdmin'] as bool,
       joinedClub: map["joinedClub"] != null
           ? List<String>.from(

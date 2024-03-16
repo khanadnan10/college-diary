@@ -6,19 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:routemaster/routemaster.dart';
 
-void showCustomDeleteBottomSheet(
-  BuildContext context,
-  WidgetRef ref,
-  Post pid,
-) {
+void showCustomDeleteBottomSheet(BuildContext context, WidgetRef ref, Post pid,
+    {String description = "Are you sure you want to delete this post?", Color color= const Color(0xff3370E5),}) {
   showModalBottomSheet(
     context: context,
     showDragHandle: true,
-    backgroundColor: Pallete.blueColor,
+    backgroundColor: color,
     builder: (BuildContext context) {
       return Container(
-        // height: 200.0,
-        color: Pallete.blueColor,
+        color: color,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -35,7 +31,7 @@ void showCustomDeleteBottomSheet(
                 ),
               ),
               Text(
-                "Are you sure you want to delete this post?",
+                description,
                 style: TextStyle(
                   color: Pallete.whiteColor.withOpacity(0.5),
                 ),
