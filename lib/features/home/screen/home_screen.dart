@@ -34,6 +34,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final currentUser = ref.watch(userProvider);
     return Scaffold(
+      drawer: Drawer(
+        shape: const RoundedRectangleBorder(),
+        child: Column(
+          children: [
+            const Spacer(),
+            ListTile(
+              tileColor: Pallete.greyColor.withOpacity(0.1),
+              title: Text(
+                'About us ♥',
+                style: TextStyle(color: Pallete.blueColor),
+              ),
+            )
+          ],
+        ),
+      ),
       backgroundColor: Pallete.blueColor,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -41,7 +56,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             SliverAppBar(
               backgroundColor: Pallete.blueColor,
               floating: true,
+              automaticallyImplyLeading: true,
               snap: true,
+              // leading: const Icon(
+              //   Icons.menu_rounded,
+              //   color: Colors.white,
+              // ),
               title: Row(
                 children: [
                   // Icon(

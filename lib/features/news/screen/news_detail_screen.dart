@@ -34,9 +34,31 @@ class NewsDetailsScreen extends ConsumerWidget {
                     ),
                     automaticallyImplyLeading: true,
                     actions: [
+                      PopupMenuButton(
+                        onSelected: (value) {
+                          switch (value) {
+                            case 'cancel':
+                              break;
+
+                            default:
+                            
+                          }
+                          return;
+                        },
+                        itemBuilder: (context) {
+                          return [
+                            const PopupMenuItem(
+                              child: Text('Cancel'),
+                            )
+                          ];
+                        },
+                      ),
                       IconButton(
                         onPressed: () {
-                          //TODO Operations regarding the post deletion or something
+                          // ref
+                          //     .watch(newsControllerProvider.notifier)
+                          //     .deletePost(context, news);
+                          Routemaster.of(context).pop();
                         },
                         icon: const Icon(
                           Icons.more_vert,

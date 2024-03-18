@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:college_diary/core/constants/abusive_filtration.dart';
 import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/enums/post_enum.dart';
 import 'package:college_diary/core/utils.dart';
@@ -36,24 +37,32 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
   }
 
   void uploadPublicTextPost() async {
-    if (postController.text.isNotEmpty) {
-      ref.read(postControllerProvider.notifier).sharePublicTextPost(
-            context: context,
-            title: postController.text.trim(),
-            postType: PostType.text.name.toString(),
-          );
+    if (checkForAbusiveWord(postController.text.trim())) {
+      if (postController.text.isNotEmpty) {
+        ref.read(postControllerProvider.notifier).sharePublicTextPost(
+              context: context,
+              title: postController.text.trim(),
+              postType: PostType.text.name.toString(),
+            );
+      }
+      postController.clear();
+    } else {
+      showSnackBar(context, "🙏 Please keep the environment clean.");
     }
-    postController.clear();
   }
 
   void uploadPublicPostWithImage() async {
-    if (postController.text.isNotEmpty || selectedImages != null) {
-      ref.read(postControllerProvider.notifier).sharePublicPostWithImage(
-            context: context,
-            title: postController.text.trim(),
-            postType: PostType.image.name.toString(),
-            file: selectedImages!,
-          );
+    if (checkForAbusiveWord(postController.text.trim())) {
+      if (postController.text.isNotEmpty || selectedImages != null) {
+        ref.read(postControllerProvider.notifier).sharePublicPostWithImage(
+              context: context,
+              title: postController.text.trim(),
+              postType: PostType.image.name.toString(),
+              file: selectedImages!,
+            );
+      } else {
+        showSnackBar(context, "🙏 Please keep the environment clean.");
+      }
     }
     postController.clear();
     selectedImages = null;

@@ -3,10 +3,10 @@ import 'package:college_diary/core/widgets/custom_cached_netork_image.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/core/widgets/news_small_card.dart';
+import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/news/controller/news_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -17,20 +17,23 @@ class NewsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider)!;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            Routemaster.of(context).push(RouteName.createNewsScreen),
-        //Todo create news if the user is admin or allowed to create news
+      floatingActionButton: user.isAdmin
+          ? FloatingActionButton(
+              onPressed: () =>
+                  Routemaster.of(context).push(RouteName.createNewsScreen),
+              //Todo create news if the user is admin or allowed to create news
 
-        backgroundColor: Pallete.blueColor,
-        shape: const CircleBorder(),
-        child: const Icon(
-          Icons.add,
-          color: Pallete.whiteColor,
-        ),
-      ),
-      body: ref.refresh(getNewsProvider).when(
+              backgroundColor: Pallete.blueColor,
+              shape: const CircleBorder(),
+              child: const Icon(
+                Icons.add,
+                color: Pallete.whiteColor,
+              ),
+            )
+          : null,
+      body: ref.watch(getNewsProvider).when(
             data: (news) {
               return NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -55,10 +58,11 @@ class NewsScreen extends ConsumerWidget {
                 body: news.isEmpty
                     ? Center(
                         child: Text(
-                        'No News 📰',
-                        style: TextStyle(
-                            color: Pallete.greyColor.withOpacity(0.5)),
-                      ))
+                          'No News 📰',
+                          style: TextStyle(
+                              color: Pallete.greyColor.withOpacity(0.5)),
+                        ),
+                      )
                     : SingleChildScrollView(
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),

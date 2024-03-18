@@ -29,8 +29,5 @@ fpdart: ^1.1.0
 google_fonts: ^6.2.0
 firebase_auth: ^4.17.6
 image_picker: ^1.0.7
-lottie: ^3.1.0
-dotlottie_loader: ^0.0.3
-carousel_slider: ^4.2.1
 uuid: ^4.3.3
 timeago: ^3.6.1

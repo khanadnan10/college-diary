@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
-
 import 'package:college_diary/core/banned_screen.dart';
 import 'package:college_diary/core/route_name.dart';
 import 'package:college_diary/core/utils.dart';
@@ -200,7 +197,7 @@ class ProfileScreen extends ConsumerWidget {
                                                   ),
                                                 ],
                                               ),
-                                              //! ADMIN: Only Admin Restriction --------------------------------
+                                              //! ADMIN: Only Restriction --------------------------------
                                               currentUser.isAdmin
                                                   ? Row(
                                                       children: [
@@ -575,12 +572,16 @@ class ProfileScreen extends ConsumerWidget {
                                 return InkWell(
                                   onTap: () => navigateToPostDetailScreen(
                                       context, postCard),
-                                  onLongPress: () =>
+                                  onLongPress: () {
+                                    if (currentUser!.isAdmin ||
+                                        currentUser.uid == user.uid) {
                                       showCustomDeleteBottomSheet(
-                                    context,
-                                    ref,
-                                    postCard,
-                                  ),
+                                        context,
+                                        ref,
+                                        postCard,
+                                      );
+                                    }
+                                  },
                                   child: PostCard(
                                     uid: postCard.uid,
                                     userName: postCard.userName,

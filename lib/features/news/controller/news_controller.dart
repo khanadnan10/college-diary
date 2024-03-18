@@ -1,10 +1,9 @@
 import 'dart:typed_data';
-
 import 'package:college_diary/core/providers/storage_provider.dart';
-import 'package:college_diary/core/type_def.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/news/repository/news_repository.dart';
 import 'package:college_diary/model/news_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -20,7 +19,7 @@ final newsControllerProvider =
   );
 });
 
-final getNewsProvider = FutureProvider((ref) async {
+final getNewsProvider = StreamProvider((ref) {
   return ref.watch(newsControllerProvider.notifier).getAllNews();
 });
 final getNewsByIdProvider = FutureProvider.family((ref, String id) {
@@ -120,8 +119,8 @@ class NewsController extends StateNotifier<bool> {
   }
 
   //* Get News
-  Future<List<News>> getAllNews() async {
-    return await _newsRepository.getNews();
+  Stream<List<News>> getAllNews() {
+    return _newsRepository.getNews();
   }
 
   Future<News> getNewsById(String newsId) async {
@@ -131,5 +130,24 @@ class NewsController extends StateNotifier<bool> {
     }, (news) {
       return news;
     });
+  }
+
+  void deletePost(BuildContext context, News news) async {
+    try {
+      if (news.image != null) {
+        await _storageRepository.deleteFile(
+          path: "news",
+          id: news.id,
+        );
+      }
+      await _newsRepository.deleteNewsbyId(news.id);
+      if (context.mounted) showSnackBar(context, 'Post deleted successfully.');
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, e.toString());
+      }
+    }
   }
 }

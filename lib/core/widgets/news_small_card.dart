@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:college_diary/core/widgets/custom_cached_netork_image.dart';
 import 'package:college_diary/theme/pallete.dart';
+import 'package:flutter/widgets.dart';
 
 class NewsSmallcard extends StatelessWidget {
   const NewsSmallcard({
@@ -30,8 +32,9 @@ class NewsSmallcard extends StatelessWidget {
         children: [
           image != null
               ? Flexible(
+                  flex: 1,
                   child: Container(
-                    height: size.height * 0.12,
+                    height: size.height * 0.1,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -41,9 +44,19 @@ class NewsSmallcard extends StatelessWidget {
                     ),
                   ),
                 )
-              : const SizedBox(),
+              : Flexible(
+                  flex: 1,
+                  child: Transform(
+                    transform: Matrix4.rotationY(0),
+                    child: Container(
+                      height: 50,
+                      width: 2,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
           const SizedBox(width: 6),
-          Flexible(
+          Expanded(
             flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

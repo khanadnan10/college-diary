@@ -57,6 +57,10 @@ class _MyAppState extends ConsumerState<MyApp> {
           loading: (() => const Loader()),
           error: (error, st) => ErrorText(error: error.toString()),
           data: (data) => MaterialApp.router(
+            themeAnimationStyle: AnimationStyle(
+              curve: Curves.bounceInOut,
+              duration: const Duration(milliseconds: 500),
+            ),
             debugShowCheckedModeBanner: false,
             title: 'College Diary',
             theme: Pallete.lightModeAppTheme,

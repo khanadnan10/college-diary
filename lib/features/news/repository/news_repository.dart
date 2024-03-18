@@ -20,13 +20,13 @@ class NewsRepository {
       : _firebaseFirestore = firebaseFirestore;
 
   //! Reference to the news collection
-  CollectionReference get _posts =>
+  CollectionReference get _news =>
       _firebaseFirestore.collection(FirebaseCollection.newsCollection);
 
   //* Create News
   FutureEither<String> createNews(News news) async {
     try {
-      await _posts.doc(news.id).set(news.toMap());
+      await _news.doc(news.id).set(news.toMap());
       return right('News created successfully.');
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -36,29 +36,17 @@ class NewsRepository {
   }
 
   //* Get News
-  Future<List<News>> getNews() async {
-    try {
-      List<News> news = [];
-      final allNews = await _posts.orderBy('createdAt', descending: true).get();
-      if (allNews.docs.isNotEmpty) {
-        news = allNews.docs
-            .map((post) => News.fromMap(post.data() as Map<String, dynamic>))
-            .toList();
-        return news;
-      } else {
-        return [];
-      }
-    } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return [];
-    }
+  Stream<List<News>> getNews() {
+    return _news.orderBy("createdAt", descending: true).snapshots().map(
+        (event) => event.docs
+            .map((e) => News.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
   }
 
   //* get News By Id
   FutureEither<News> getNewsById(String newsId) async {
     try {
-      final news = await _posts.doc(newsId).get();
+      final news = await _news.doc(newsId).get();
 
       if (news.exists) {
         return right(News.fromMap(news.data() as Map<String, dynamic>));
@@ -77,7 +65,7 @@ class NewsRepository {
   //* Delete News By Id
   FutureEither<String> deleteNewsbyId(String newsId) async {
     try {
-      await _posts.doc(newsId).delete();
+      await _news.doc(newsId).delete();
       return right('News deleted successfully!');
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -91,7 +79,7 @@ class NewsRepository {
   //* Edit News
   FutureEither<String> editNewsbyId(News news) async {
     try {
-      await _posts.doc(news.id).update(news.toMap());
+      await _news.doc(news.id).update(news.toMap());
       return right('News updated successfully!');
     } on FirebaseException catch (e) {
       throw e.message.toString();
