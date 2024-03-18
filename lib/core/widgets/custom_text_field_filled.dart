@@ -4,20 +4,26 @@ import 'package:flutter/material.dart';
 class CTextFieldFilled extends StatelessWidget {
   const CTextFieldFilled({
     super.key,
-    required TextEditingController titleController,
-    required String hintText,
+    required TextEditingController controller,
+    String? hintText,
+    this.style,
     this.maxLine = 1,
-  })  : _titleController = titleController,
+    this.readOnly,
+  })  : _titleController = controller,
         _hintText = hintText;
 
   final TextEditingController _titleController;
-  final String _hintText;
+  final String? _hintText;
   final int maxLine;
+  final bool? readOnly;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       controller: _titleController,
+      style: style,
       decoration: InputDecoration(
         filled: true,
         isDense: true,

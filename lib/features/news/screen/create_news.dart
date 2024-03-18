@@ -127,7 +127,7 @@ class _CreateNewsState extends ConsumerState<CreateNews> {
                         height: 10,
                       ),
                       CTextFieldFilled(
-                        titleController: _titleController,
+                        controller: _titleController,
                         hintText: 'Title',
                       ),
                       const SizedBox(
@@ -144,7 +144,7 @@ class _CreateNewsState extends ConsumerState<CreateNews> {
                         height: 10,
                       ),
                       CTextFieldFilled(
-                        titleController: _contentController,
+                        controller: _contentController,
                         hintText: 'Write something here...',
                         maxLine: 15,
                       ),

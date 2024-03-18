@@ -1,6 +1,7 @@
 import 'package:college_diary/core/widgets/custom_cached_netork_image.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
+import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/news/controller/news_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class NewsDetailsScreen extends ConsumerWidget {
     return Scaffold(
       body: ref.watch(getNewsByIdProvider(newsId)).when(
             data: (news) => NestedScrollView(
+              physics: const BouncingScrollPhysics(),
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
@@ -34,40 +36,46 @@ class NewsDetailsScreen extends ConsumerWidget {
                     ),
                     automaticallyImplyLeading: true,
                     actions: [
-                      PopupMenuButton(
-                        onSelected: (value) {
-                          switch (value) {
-                            case 'cancel':
-                              break;
+                      ref.watch(userProvider)!.isAdmin
+                          ? PopupMenuButton(
+                              iconColor: Pallete.whiteColor,
+                              onSelected: (value) {
+                                switch (value) {
+                                  case 'Delete':
+                                    ref
+                                        .watch(newsControllerProvider.notifier)
+                                        .deletePost(context, news);
+                                    Routemaster.of(context).pop();
+                                    break;
 
-                            default:
-                            
-                          }
-                          return;
-                        },
-                        itemBuilder: (context) {
-                          return [
-                            const PopupMenuItem(
-                              child: Text('Cancel'),
+                                  default:
+                                }
+                                return;
+                              },
+                              itemBuilder: (context) {
+                                return [
+                                  const PopupMenuItem(
+                                    value: 'Delete',
+                                    child: Text('Delete'),
+                                  )
+                                ];
+                              },
                             )
-                          ];
-                        },
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // ref
-                          //     .watch(newsControllerProvider.notifier)
-                          //     .deletePost(context, news);
-                          Routemaster.of(context).pop();
-                        },
-                        icon: const Icon(
-                          Icons.more_vert,
-                          color: Colors.white,
-                        ),
-                      ),
+                          : const SizedBox(),
+                      // IconButton(
+                      //   onPressed: () {
+                      // ref
+                      //     .watch(newsControllerProvider.notifier)
+                      //     .deletePost(context, news);
+                      //     Routemaster.of(context).pop();
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.more_vert,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                     ],
                     floating: true,
-                    // pinned: true,
                   ),
                   SliverToBoxAdapter(
                     child: news.image != null

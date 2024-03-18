@@ -23,11 +23,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _nameController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
-  final _enrollmentController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _enrollmentController = TextEditingController();
 
   bool isVerified = false;
 

@@ -1,6 +1,6 @@
 // TODO: Create a function to check and filter the contents before posting it to publicly
 
-List<String> abusiveWords = [
+Set<String> abusiveWords = {
   "dumb",
   "teachers pet",
   "scaredy cat",
@@ -11,6 +11,14 @@ List<String> abusiveWords = [
   "idiot",
   "mother fucker",
   "madarchor",
+  "madarchod",
+  "gandu",
+  "gu",
+  "guu",
+  "goo",
+  "hagal",
+  "suwr",
+  "suwar",
   "behenchod",
   "behen ke lode",
   "bhosdike",
@@ -28,11 +36,17 @@ List<String> abusiveWords = [
   "behenkada",
   "makada",
   "makda",
+  'kamini',
+  'kamina',
+  'harami',
+  'bhomsdiwala',
+  'bhomsdiwali',
+  'bhomsdi',
   "chodu",
   "bekar",
   "behuda",
   "wahiyat",
-];
+};
 
 bool checkForAbusiveWord(String test) {
   // String test = 'how you doing FUgCK, and what aboyt ouy';

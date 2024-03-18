@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_diary/core/banned_screen.dart';
 import 'package:college_diary/core/route_name.dart';
 import 'package:college_diary/core/utils.dart';
@@ -353,6 +354,18 @@ class ProfileScreen extends ConsumerWidget {
                         floating: true,
                         snap: true,
                         actions: [
+                          user.uid == ref.watch(userProvider)!.uid
+                              ? IconButton(
+                                  onPressed: () {
+                                    Routemaster.of(context)
+                                        .push(RouteName.profileSettingsScreen);
+                                  },
+                                  icon: const Icon(
+                                    Icons.settings,
+                                    color: Pallete.whiteColor,
+                                  ),
+                                )
+                              : const SizedBox(),
                           user.uid == ref.watch(userProvider)!.uid
                               ? Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
