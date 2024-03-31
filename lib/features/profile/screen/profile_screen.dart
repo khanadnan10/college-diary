@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:college_diary/core/banned_screen.dart';
-import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/security/banned_screen.dart';
+import 'package:college_diary/core/routes/route_name.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -44,8 +44,8 @@ class ProfileScreen extends ConsumerWidget {
                         child: NestedScrollView(
                           headerSliverBuilder: (context, innerBoxIsScrolled) {
                             return [
-                              SliverAppBar(
-                                title: const Text(
+                              const SliverAppBar(
+                                title: Text(
                                   "Profile",
                                   style: TextStyle(
                                     color: Pallete.whiteColor,
@@ -62,7 +62,7 @@ class ProfileScreen extends ConsumerWidget {
                                 delegate: SliverChildListDelegate(
                                   [
                                     Container(
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: Pallete.blueColor),
                                       padding: const EdgeInsets.all(12.0),
                                       child: Column(
@@ -73,15 +73,18 @@ class ProfileScreen extends ConsumerWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CircleAvatar(
-                                                radius: 30.0,
-                                                backgroundImage:
-                                                    user.profilePic!.isEmpty
-                                                        ? Image.asset(
-                                                            'assets/images/blank_profile_picture.png',
-                                                          ) as ImageProvider
-                                                        : NetworkImage(
-                                                            user.profilePic!),
+                                              Hero(
+                                                tag: user.name,
+                                                child: CircleAvatar(
+                                                  radius: 30.0,
+                                                  backgroundImage:
+                                                      user.profilePic!.isEmpty
+                                                          ? Image.asset(
+                                                              'assets/images/blank_profile_picture.png',
+                                                            ) as ImageProvider
+                                                          : NetworkImage(
+                                                              user.profilePic!),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -295,7 +298,8 @@ class ProfileScreen extends ConsumerWidget {
                                                 child: PostCard(
                                                   uid: postCard.uid,
                                                   userName: postCard.userName,
-                                                  avatar: postCard.avatar!,
+                                                  avatar: postCard.avatar ??
+                                                      'assets/images/blank_profile_picture.png',
                                                   branch: postCard.branch,
                                                   department:
                                                       postCard.department,
@@ -385,7 +389,7 @@ class ProfileScreen extends ConsumerWidget {
                           [
                             Container(
                               decoration:
-                                  BoxDecoration(color: Pallete.blueColor),
+                                  const BoxDecoration(color: Pallete.blueColor),
                               padding: const EdgeInsets.all(12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -394,14 +398,17 @@ class ProfileScreen extends ConsumerWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CircleAvatar(
-                                        radius: 30.0,
-                                        backgroundImage: user
-                                                .profilePic!.isEmpty
-                                            ? Image.asset(
-                                                'assets/images/blank_profile_picture.png',
-                                              ) as ImageProvider
-                                            : NetworkImage(user.profilePic!),
+                                      Hero(
+                                        tag: user.name,
+                                        child: CircleAvatar(
+                                          radius: 30.0,
+                                          backgroundImage: user.profilePic ==
+                                                  null
+                                              ? Image.asset(
+                                                  'assets/images/blank_profile_picture.png',
+                                                ) as ImageProvider
+                                              : NetworkImage(user.profilePic!),
+                                        ),
                                       ),
                                       ref
                                           .watch(getCurrentUserPost(user.uid))
@@ -598,9 +605,8 @@ class ProfileScreen extends ConsumerWidget {
                                   child: PostCard(
                                     uid: postCard.uid,
                                     userName: postCard.userName,
-                                    avatar: postCard.avatar != null
-                                        ? postCard.avatar!
-                                        : 'assets/images/blank_profile_picture.png',
+                                    avatar: postCard.avatar ??
+                                        'assets/images/blank_profile_picture.png',
                                     branch: postCard.branch,
                                     department: postCard.department,
                                     image: postCard.images,

@@ -3,9 +3,11 @@ import 'package:college_diary/core/providers/storage_provider.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/post/repository/post_repository.dart';
 import 'package:college_diary/model/post_model.dart';
+import 'package:college_diary/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/utils.dart';
 
@@ -152,5 +154,30 @@ class PostController extends StateNotifier<bool> {
 
   Future<List<Post>> getCurrentUserPost(String userId) async {
     return await _ref.watch(postRepositoryProvider).getCurrentUserPost(userId);
+  }
+
+  void updateUserPost({
+    required BuildContext context,
+  }) async {
+    try {
+      state = true;
+      final user = _ref.read(userProvider)!;
+
+      final updateResponce = await _postRepository.updateUserPost(user);
+      state = false;
+
+      updateResponce.fold(
+        (l) => showSnackBar(context, l.message),
+        (r) {
+          // _ref.read(userProvider.notifier).update((state) => user);
+          showSnackBar(context, 'Post updated successfully.😃');
+          Routemaster.of(context).pop();
+        },
+      );
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, e.toString());
+      }
+    }
   }
 }

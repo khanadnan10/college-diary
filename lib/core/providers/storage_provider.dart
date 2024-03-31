@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:college_diary/core/failure.dart';
+import 'package:college_diary/core/error/failure.dart';
 import 'package:college_diary/core/providers/firebase_provider.dart';
 import 'package:college_diary/core/type_def.dart';
 import 'package:firebase_storage/firebase_storage.dart';

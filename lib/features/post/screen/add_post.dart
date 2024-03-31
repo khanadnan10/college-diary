@@ -129,12 +129,17 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: userProfile.profilePic!.isEmpty
-                                  ? const CircleAvatar()
-                                  : CircleAvatar(
+                              child: userProfile.profilePic != null
+                                  ? CircleAvatar(
                                       radius: 26.0,
                                       backgroundImage: NetworkImage(
                                           ref.read(userProvider)!.profilePic!),
+                                    )
+                                  : const CircleAvatar(
+                                      radius: 26.0,
+                                      backgroundImage: AssetImage(
+                                        'assets/images/blank_profile_picture.png',
+                                      ),
                                     ),
                             ),
                             Expanded(

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:college_diary/core/constants/department_list.dart';
 import 'package:college_diary/core/providers/storage_provider.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/news/repository/news_repository.dart';
@@ -45,6 +46,8 @@ class NewsController extends StateNotifier<bool> {
     required BuildContext context,
     required String title,
     required String content,
+    required String department,
+    required String? link,
     required Uint8List? file,
   }) async {
     final user = _ref.read(userProvider)!;
@@ -66,8 +69,9 @@ class NewsController extends StateNotifier<bool> {
         title: title,
         image: imageLink,
         content: content,
+        link: link,
         author: user.name,
-        department: 'cse',
+        department: department,
         createdAt: DateTime.now(),
       );
 
@@ -88,7 +92,9 @@ class NewsController extends StateNotifier<bool> {
   void createTextNews({
     required BuildContext context,
     required String title,
+    required String department,
     required String content,
+    required String? link,
   }) async {
     final user = _ref.read(userProvider)!;
     final newsId = const Uuid().v1();
@@ -98,9 +104,10 @@ class NewsController extends StateNotifier<bool> {
         id: newsId,
         title: title,
         image: null,
+        link: link,
         content: content,
         author: user.name,
-        department: 'cse',
+        department: department,
         createdAt: DateTime.now(),
       );
 

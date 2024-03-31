@@ -9,6 +9,8 @@ class CTextFieldFilled extends StatelessWidget {
     this.style,
     this.maxLine = 1,
     this.readOnly,
+    this.keyboardType,
+    this.validator,
   })  : _titleController = controller,
         _hintText = hintText;
 
@@ -16,14 +18,22 @@ class CTextFieldFilled extends StatelessWidget {
   final String? _hintText;
   final int maxLine;
   final bool? readOnly;
+  final TextInputType? keyboardType;
   final TextStyle? style;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: readOnly ?? false,
       controller: _titleController,
-      style: style,
+      style: readOnly != true
+          ? style
+          : TextStyle(
+              color: Pallete.greyColor.withOpacity(0.5),
+            ),
+      keyboardType: keyboardType,
+      validator: validator,
       decoration: InputDecoration(
         filled: true,
         isDense: true,

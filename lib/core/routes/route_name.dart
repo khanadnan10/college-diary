@@ -18,4 +18,11 @@ class RouteName {
 
   static const String createNewsScreen = '/create-news';
   static const String newsDetailScreen = '/news-detail/:newsId';
+
+  /*----------------------------------------
+   ADMIN
+  -----------------------------------------*/
+  static const String adminBottomNavBarScreen = '/admin';
+  static const String adminDashboardScreen = '/admin/dashboard';
+  static const String adminStatusScreen = '/admin/dashboard/status/:query';
 }

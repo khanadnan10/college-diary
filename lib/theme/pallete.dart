@@ -7,7 +7,7 @@ class Pallete {
   static const greyColor = Color.fromRGBO(26, 39, 45, 1); // secondary color
   static const drawerColor = Color.fromRGBO(18, 18, 18, 1);
   static const whiteColor = Colors.white;
-  static var blueColor = const Color(0xff3370E5);
+  static const blueColor = Color(0xff3370E5);
   static var lightBlueColor = Colors.blue.shade300;
 
   // Themes

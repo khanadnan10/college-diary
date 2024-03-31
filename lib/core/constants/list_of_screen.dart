@@ -1,4 +1,5 @@
 import 'package:college_diary/core/providers/firebase_provider.dart';
+import 'package:college_diary/features/admin/screen/admin.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/home/screen/home_screen.dart';
 import 'package:college_diary/features/news/screen/news_screen.dart';
@@ -35,4 +36,11 @@ List<Widget> bottomNavScreens = [
       return ProfileScreen(uid: uid);
     },
   ),
+];
+
+List<Widget> adminBottomNavBarScreens = [
+  const AdminDashboardScreen(),
+  const Center(
+    child: Text('Sample space'),
+  )
 ];

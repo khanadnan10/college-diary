@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_diary/model/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-
 import 'package:college_diary/core/constants/firebase_collections.dart';
-import 'package:college_diary/core/failure.dart';
+import 'package:college_diary/core/error/failure.dart';
 import 'package:college_diary/core/providers/firebase_provider.dart';
 import 'package:college_diary/core/type_def.dart';
 import 'package:college_diary/model/post_model.dart';
@@ -70,4 +70,45 @@ class PostRepository {
         .map((doc) => Post.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
   }
+
+  FutureVoid updateUserPost(UserModel user) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await _posts.where('uid', isEqualTo: user.uid).get();
+
+      if (querySnapshot.docs.isEmpty) {
+        return right(null);
+      }
+
+      for (QueryDocumentSnapshot pocDoc in querySnapshot.docs) {
+        await _posts.doc(pocDoc.id).update({
+          "avatar": user.profilePic,
+          "userName": user.name,
+        });
+      }
+      return right(null);
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  // FutureVoid updateUserPostAsPerProfileUpdate(String userId) async {
+  //   try {
+  //     QuerySnapshot querySnapshot =
+  //         await _posts.where('uid', isEqualTo: userId).get();
+
+  //     if (querySnapshot.docs.isEmpty) {
+  //       return right(null);
+  //     }
+
+  //     for (QueryDocumentSnapshot pocDoc in querySnapshot.docs) {
+  //       await _posts.doc(pocDoc.id).update({});
+  //     }
+  //     return left(Failure('User has no posts!'));
+  //   } catch (e) {
+  //     return left(Failure(e.toString()));
+  //   }
+  // }
 }

@@ -1,5 +1,5 @@
-import 'package:college_diary/core/banned_screen.dart';
-import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/security/banned_screen.dart';
+import 'package:college_diary/core/routes/route_name.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
@@ -20,7 +20,6 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   void navigateToProfileScreen(BuildContext context, String userId) {
-    // Routemaster.of(context).push("/profile/$uid");
     Routemaster.of(context)
         .push((RouteName.profileScreen).replaceFirst(':uid', userId));
   }
@@ -100,14 +99,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                 ),
                               );
                             }
-                            return ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage(user.profilePic!),
+                            return Hero(
+                              tag: user.name,
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(user.profilePic!),
+                                ),
+                                subtitle:
+                                    Text(user.enrollmentNumber.toString()),
+                                title: Text(user.name),
+                                onTap: () =>
+                                    navigateToProfileScreen(context, user.uid),
                               ),
-                              subtitle: Text(user.enrollmentNumber.toString()),
-                              title: Text(user.name),
-                              onTap: () =>
-                                  navigateToProfileScreen(context, user.uid),
                             );
                           },
                         );

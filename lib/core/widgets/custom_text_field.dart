@@ -44,6 +44,12 @@ class CTextField extends StatelessWidget {
           ),
         ),
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "$hintText can't be empty";
+        }
+        return null;
+      },
     );
   }
 }

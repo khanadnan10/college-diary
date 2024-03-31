@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_diary/core/constants/firebase_collections.dart';
-import 'package:college_diary/core/failure.dart';
+import 'package:college_diary/core/error/failure.dart';
 import 'package:college_diary/core/providers/firebase_provider.dart';
 import 'package:college_diary/core/type_def.dart';
 import 'package:college_diary/model/news_model.dart';

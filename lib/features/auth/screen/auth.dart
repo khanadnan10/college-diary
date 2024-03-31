@@ -3,7 +3,7 @@
 
 import 'package:college_diary/core/widgets/custom_elevated_button.dart';
 import 'package:college_diary/core/widgets/loader.dart';
-import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/routes/route_name.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   bool isVerified = false;
 
-  void verifyUser() {
+  void verifyUser(context) {
     if (_signupFormKey.currentState!.validate()) {
       final verified = Routemaster.of(context).push(
         RouteName.invitationVerification,
@@ -205,7 +205,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                               ),
                                               SizedBox(height: 20),
                                               Text('Enrollment'),
-                                              CTextField( 
+                                              CTextField(
                                                 hintText: '0115CSXXXXX',
                                                 emailController:
                                                     _enrollmentController,
@@ -214,7 +214,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                               !isVerified
                                                   ? CElevatedButton(
                                                       text: 'Verify',
-                                                      onPressed: verifyUser,
+                                                      onPressed: () =>
+                                                          verifyUser(context),
                                                     )
                                                   : CElevatedButton(
                                                       text: 'Sign up',

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-import 'package:college_diary/core/failure.dart';
+import 'package:college_diary/core/error/failure.dart';
 import 'package:college_diary/core/type_def.dart';
 
 final authRepositoryProvider = Provider((ref) {
@@ -66,6 +66,16 @@ class AuthRepository {
         return left(Failure('No user found with this email.'));
       }
     } on FirebaseAuthException catch (e) {
+      print(e.code);
+      switch (e.code) {
+        case 'wrong-password':
+          throw "There is no user with this email.";
+        case 'user-not-found':
+          throw "The password you entered is incorrect. Please try again.";
+        case 'invalid-email':
+          throw "The email doesn't seems to be valid.";
+        default:
+      }
       throw e.message!;
     } catch (e) {
       return left(Failure(e.toString()));
@@ -104,7 +114,8 @@ class AuthRepository {
           joinedClub: [],
           phoneNumber: phoneNumber,
           enrollmentNumber: enrollmentNumber.toUpperCase(),
-          profilePic: null,
+          profilePic:
+              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
           isVerifiedByAdmin: false,
           isBanned: false,
           isAdmin: false,

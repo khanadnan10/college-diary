@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:college_diary/core/widgets/custom_cached_netork_image.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shimmer/shimmer.dart';
@@ -57,7 +58,8 @@ class PostCard extends StatelessWidget {
                           ? NetworkImage(
                               avatar!,
                             ) as ImageProvider
-                          : AssetImage(avatar!),
+                          : const AssetImage(
+                              'assets/images/blank_profile_picture.png'),
                     ),
                     const SizedBox(
                       width: 10.0,

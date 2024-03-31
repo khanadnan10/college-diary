@@ -23,15 +23,16 @@ class SearchRepository {
       _firestore.collection(FirebaseCollection.userCollection);
 
   Stream<List<UserModel>> searchCommunity(String query) {
+    String name = query.replaceFirst(query[0], query[0].toUpperCase());
     return _users
         .where(
           'name',
-          isGreaterThanOrEqualTo: query.isEmpty ? 0 : query,
-          isLessThan: query.isEmpty
+          isGreaterThanOrEqualTo: name.isEmpty ? 0 : name,
+          isLessThan: name.isEmpty
               ? null
-              : query.substring(0, query.length - 1) +
+              : name.substring(0, name.length - 1) +
                   String.fromCharCode(
-                    query.codeUnitAt(query.length - 1) + 1,
+                    name.codeUnitAt(name.length - 1) + 1,
                   ),
         )
         .snapshots()

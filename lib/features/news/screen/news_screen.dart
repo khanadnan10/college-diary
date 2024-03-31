@@ -1,4 +1,4 @@
-import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/routes/route_name.dart';
 import 'package:college_diary/core/widgets/custom_cached_netork_image.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
@@ -168,7 +168,7 @@ class NewsScreen extends ConsumerWidget {
                               ),
 
                               if (news.length > 1)
-                                Align(
+                                const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Top Stories',
@@ -189,28 +189,26 @@ class NewsScreen extends ConsumerWidget {
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
                                     final data = news[index + 1];
-                                    return GestureDetector(
+                                    return NewsSmallcard(
                                       onTap: () => Routemaster.of(context).push(
                                         RouteName.newsDetailScreen
                                             .replaceAll(':newsId', data.id),
                                       ),
-                                      child: NewsSmallcard(
-                                        author: data.author,
-                                        image: data.image,
-                                        title: data.title,
-                                        dateTime: DateFormat.yMMMEd()
-                                            .format(
-                                              data.createdAt,
-                                            )
-                                            .toString(),
-                                      ),
+                                      author: data.author,
+                                      image: data.image,
+                                      title: data.title,
+                                      dateTime: DateFormat.yMMMEd()
+                                          .format(
+                                            data.createdAt,
+                                          )
+                                          .toString(),
                                     );
                                   },
                                 ),
                               if (news.length <= 1)
                                 Center(
                                   child: Text(
-                                    'timessssssssssssssssssssss 😋',
+                                    'Timessssssssssssssssssssss 😋',
                                     style: TextStyle(
                                       color: Pallete.greyColor.withOpacity(0.3),
                                     ),

@@ -1,6 +1,9 @@
-import 'package:college_diary/core/banned_screen.dart';
-import 'package:college_diary/core/invitation_verification.dart';
-import 'package:college_diary/core/route_name.dart';
+import 'package:college_diary/core/security/banned_screen.dart';
+import 'package:college_diary/core/security/invitation_verification.dart';
+import 'package:college_diary/core/routes/route_name.dart';
+import 'package:college_diary/features/admin/screen/admin.dart';
+import 'package:college_diary/features/admin/screen/admin_bottom_nav_bar.dart';
+import 'package:college_diary/features/admin/screen/user_status.dart';
 import 'package:college_diary/features/auth/screen/auth.dart';
 import 'package:college_diary/features/home/screen/home_screen.dart';
 import 'package:college_diary/features/home/screen/bottom_nav_bar.dart';
@@ -62,6 +65,17 @@ final loggedInRoute = RouteMap(
         ),
     RouteName.editProfileScreen: (_) => const MaterialPage(
           child: EditProfile(),
+        ),
+    RouteName.adminBottomNavBarScreen: (_) => const MaterialPage(
+          child: AdminBottomNavBar(),
+        ),
+    RouteName.adminDashboardScreen: (_) => const MaterialPage(
+          child: AdminDashboardScreen(),
+        ),
+    RouteName.adminStatusScreen: (route) => MaterialPage(
+          child: UserStatus(
+            users: route.pathParameters['query']!,
+          ),
         ),
   },
   onUnknownRoute: (path) => const Redirect(RouteName.initial),

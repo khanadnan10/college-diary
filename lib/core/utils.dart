@@ -6,8 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:routemaster/routemaster.dart';
 
-void showCustomDeleteBottomSheet(BuildContext context, WidgetRef ref, Post pid,
-    {String description = "Are you sure you want to delete this post?", Color color= const Color(0xff3370E5),}) {
+void showCustomDeleteBottomSheet(
+  BuildContext context,
+  WidgetRef ref,
+  Post pid, {
+  String description = "Are you sure you want to delete this post?",
+  Color color = const Color(0xff3370E5),
+}) {
   showModalBottomSheet(
     context: context,
     showDragHandle: true,
@@ -109,7 +114,8 @@ void showCustomDeleteBottomSheet(BuildContext context, WidgetRef ref, Post pid,
   );
 }
 
-void showSnackBar(BuildContext context, String text) {
+void showSnackBar(BuildContext context, String text,
+    [Color color = Pallete.blackColor]) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
@@ -120,7 +126,7 @@ void showSnackBar(BuildContext context, String text) {
             color: Pallete.whiteColor,
           ),
         ),
-        backgroundColor: Pallete.blackColor,
+        backgroundColor: color,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -128,8 +134,16 @@ void showSnackBar(BuildContext context, String text) {
 
 pickImagesFromGallery(ImageSource source) async {
   final ImagePicker imagePicker = ImagePicker();
-  XFile? file = await imagePicker.pickImage(source: source);
+  XFile? file = await imagePicker.pickImage(source: source, imageQuality: 80);
   if (file != null) {
     return await file.readAsBytes();
   }
+  return null;
+}
+
+bool isLinkValid(String link) {
+  RegExp regExp = RegExp(
+      r'^(?:http|https):\/\/[\w\-_]+(?:\.[\w\-_]+)+[\w\-.,@?^=%&:/~\+#]*[\w\-@?^=%&/~\+#]$');
+
+  return regExp.hasMatch(link);
 }

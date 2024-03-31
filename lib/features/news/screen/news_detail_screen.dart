@@ -4,6 +4,7 @@ import 'package:college_diary/core/widgets/loader.dart';
 import 'package:college_diary/features/auth/controller/auth_controller.dart';
 import 'package:college_diary/features/news/controller/news_controller.dart';
 import 'package:college_diary/theme/pallete.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -62,18 +63,6 @@ class NewsDetailsScreen extends ConsumerWidget {
                               },
                             )
                           : const SizedBox(),
-                      // IconButton(
-                      //   onPressed: () {
-                      // ref
-                      //     .watch(newsControllerProvider.notifier)
-                      //     .deletePost(context, news);
-                      //     Routemaster.of(context).pop();
-                      //   },
-                      //   icon: const Icon(
-                      //     Icons.more_vert,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
                     ],
                     floating: true,
                   ),
@@ -98,7 +87,7 @@ class NewsDetailsScreen extends ConsumerWidget {
                     children: [
                       Text(
                         news.department,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12.0,
                           color: Pallete.blueColor,
                           fontWeight: FontWeight.w600,
@@ -118,15 +107,20 @@ class NewsDetailsScreen extends ConsumerWidget {
                         height: 10.0,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(
-                            Icons.person,
+                            Icons.edit_note_rounded,
+                            size: 16.0,
                             color: Pallete.greyColor.withOpacity(0.5),
+                          ),
+                          const SizedBox(
+                            width: 5,
                           ),
                           Text(
                             news.author,
                             style: TextStyle(
-                              fontSize: 16.0,
+                              fontSize: 12.0,
                               color: Pallete.greyColor.withOpacity(0.5),
                               fontWeight: FontWeight.w400,
                             ),
@@ -134,6 +128,19 @@ class NewsDetailsScreen extends ConsumerWidget {
                           const SizedBox(
                             width: 10.0,
                           ),
+                          (news.link != null && news.link!.isNotEmpty)
+                              ? IconButton(
+                                  onPressed: () {
+                                    //TODO: open in webview
+                                    if (kDebugMode) {
+                                      print(news.link);
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.link,
+                                  ),
+                                )
+                              : const SizedBox(),
                         ],
                       ),
                       Text(

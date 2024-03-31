@@ -1,4 +1,5 @@
-import 'package:college_diary/core/banned_screen.dart';
+import 'package:college_diary/core/security/banned_screen.dart';
+import 'package:college_diary/core/routes/route_name.dart';
 import 'package:college_diary/core/utils.dart';
 import 'package:college_diary/core/widgets/error_text.dart';
 import 'package:college_diary/core/widgets/loader.dart';
@@ -34,6 +35,63 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final currentUser = ref.watch(userProvider);
     return Scaffold(
+      // endDrawer: currentUser != null
+      //     ? currentUser.isAdmin
+      //         ? Drawer(
+      //             // backgroundColor: Colors.red,
+      //             shape: const RoundedRectangleBorder(),
+      //             child: Column(
+      //               children: [
+      //                 const SizedBox(
+      //                   height: 20.0,
+      //                 ),
+      //                 CircleAvatar(
+      //                   radius: 50.0,
+      //                   backgroundImage: currentUser.profilePic!.isEmpty
+      //                       ? Image.asset(
+      //                           'assets/images/blank_profile_picture.png',
+      //                         ) as ImageProvider
+      //                       : NetworkImage(currentUser.profilePic!),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 20.0,
+      //                 ),
+      //                 ActionChip(
+      //                   label: const Text('Admin'),
+      //                   disabledColor: Colors.green.shade100,
+      //                   shape: RoundedRectangleBorder(
+      //                     side: BorderSide(
+      //                       color: Colors.green.shade200,
+      //                     ),
+      //                     borderRadius: BorderRadius.circular(20.0),
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 10.0,
+      //                 ),
+      //                 Text(
+      //                   currentUser.name,
+      //                   style: const TextStyle(
+      //                     fontSize: 18,
+      //                   ),
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 10.0,
+      //                 ),
+      //                 ListTile(
+      //                   leading: const Icon(Icons.space_dashboard),
+      //                   tileColor: Pallete.whiteColor.withOpacity(0.2),
+      //                   title: const Text('Dashboard'),
+      //                   onTap: () {
+      //                     Routemaster.of(context)
+      //                         .push(RouteName.adminBottomNavBarScreen);
+      //                   },
+      //                 )
+      //               ],
+      //             ),
+      //           )
+      //         : null
+      //     : null,
       drawer: Drawer(
         shape: const RoundedRectangleBorder(),
         child: Column(
@@ -41,7 +99,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const Spacer(),
             ListTile(
               tileColor: Pallete.greyColor.withOpacity(0.1),
-              title: Text(
+              title: const Text(
                 'About us ♥',
                 style: TextStyle(color: Pallete.blueColor),
               ),
@@ -56,21 +114,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             SliverAppBar(
               backgroundColor: Pallete.blueColor,
               floating: true,
-              automaticallyImplyLeading: true,
               snap: true,
-              // leading: const Icon(
-              //   Icons.menu_rounded,
-              //   color: Colors.white,
-              // ),
+              // leading: null,
+              // automaticallyImplyLeading: false,
+              actions: [
+                Builder(
+                  builder: (context) => Container(
+                    margin: const EdgeInsets.only(right: 10.0),
+                    decoration: BoxDecoration(
+                      color: Pallete.whiteColor,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.admin_panel_settings,
+                        color: Colors.red,
+                      ),
+                      padding: const EdgeInsets.all(0),
+                      onPressed: () => Routemaster.of(context)
+                              .push(RouteName.adminBottomNavBarScreen),
+                      tooltip: MaterialLocalizations.of(context)
+                          .openAppDrawerTooltip,
+                    ),
+                  ),
+                ),
+              ],
+              collapsedHeight: kToolbarHeight + 25,
               title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Icon(
-                  //   Icons.school,
-                  //   color: Pallete.whiteColor,
-                  // ),
-                  // SizedBox(
-                  //   width: 5,
-                  // ),
                   Text(
                     "College Diary",
                     style: GoogleFonts.gloriaHallelujah(
@@ -82,26 +154,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ],
               ),
-              // flexibleSpace: Padding(
-              //   padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-              //   child: const Column(
-              //     crossAxisAlignment: CrossAxisAlignment.stretch,
-              //     children: [
-              //       Flexible(
-              //         child: Text(
-              //           "Explore",
-              //           style: TextStyle(
-              //             color: Pallete.whiteColor,
-              //             fontSize: 24.0,
-              //           ),
-              //           softWrap: true,
-              //           overflow: TextOverflow.fade,
-              //         ),
-              //       ),
-              //       //TODO: Show latest News or Notification by Admin here
-              //     ],
-              //   ),
-              // ),
+              //TODO: Filter out as per the department
             ),
           ];
         },
@@ -157,9 +210,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     context, postCard),
                                 child: PostCard(
                                   userName: postCard.userName,
-                                  avatar: postCard.avatar != null
-                                      ? postCard.avatar!
-                                      : 'assets/images/blank_profile_picture.png',
+                                  avatar: postCard.avatar ??
+                                      'assets/images/blank_profile_picture.png',
                                   branch: postCard.branch,
                                   department: postCard.department,
                                   image: postCard.images,
